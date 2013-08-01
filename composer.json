@@ -1,0 +1,6 @@
+{
+    "require": {
+        "zweifisch/zf": "dev-master",
+        "brainsware/php-markdown-extra-extended": "*"
+    }
+}
