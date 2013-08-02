@@ -1,5 +1,8 @@
 
-in configs.php
+install mongo extension `sudo pecl install mongo`
+
+configuration in configs.php
+
 ```php
 $exports['mongo'] = [
 	'users','articles' => [
@@ -19,19 +22,29 @@ $exports['mongo'] = [
 return $exports;
 ```
 
+register as a component
+
 ```php
 $app->register('mongo', '\zf\Mongo');
+```
 
-$app->on('error:*',function($data,$event){
-	$this->mongo['logs.errors']->insert(['type'=>$event, 'data'=>$data]);
-});
+query
 
+```php
 $app->get('/user/:id', function(){
 	if($user = $this->mongo->users->findOne(['_id'=>$this->params->id])){
 		$this->send($user);
 	}else{
 		$this->emit('error:user', ['id'=> $this->params->id])->send(404);
 	}
+});
+```
+
+accessing a collection with a dot in name
+
+```php
+$app->on('error:*',function($data, $event){
+	$this->mongo['logs.errors']->insert(['type'=>$event, 'data'=>$data]);
 });
 ```
 
