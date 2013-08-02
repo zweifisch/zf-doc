@@ -5,7 +5,8 @@ return [
 	'folder' => 'doc',
 	'export_extension' => '.html',
 	'links' => [
-		'Home' => '',
+		'Home' => 'http://zweifisch.github.io/zf-doc/',
 		'GitHub Repo' => 'https://github.com/zweifisch/zf',
 	],
 ];
+
