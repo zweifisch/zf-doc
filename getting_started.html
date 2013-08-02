@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="assets/style.css" />
+	<link rel="stylesheet" href="assets/github.css" />
+</head>
+<body>
+
+	<div class="container">
+		<div class="navigation-menu">
+
+			<ul class="menu-root">
+										<li class="navigation-menu-folder">
+					<a class="current"
+						href="getting_started.html">Getting Started</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="routing/routing.html">Routing</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="routing/routing.html">Routing</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="routing/commandline.html">Commandline</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="handle_requests/url_params.html">Handle Requests</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="handle_requests/url_params.html">URL Params</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="handle_requests/request_body.html">Request Body</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="events.html">Events</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="helpers.html">Helpers</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="configs.html">Configs</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="commandline/phar_distribution.html">Commandline</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="commandline/phar_distribution.html">Phar Distribution</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="database/mongodb.html">Database</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="database/mongodb.html">Mongodb</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="database/pdo.html">PDO</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="database/redis.html">Redis</a>
+						</li>
+										</ul>
+				</li>
+									</ul>
+
+			<ul class="menu-links">
+								<li>
+					<a href="">Home</a>
+				</li>
+								<li>
+					<a href="https://github.com/zweifisch/zf">GitHub Repo</a>
+				</li>
+							</ul>
+
+		</div>
+		<div class="main-content">
+						<h1> Getting Started</h1>
+						<h2>install</h2>
+
+<p>install using <a href="http://getcomposer.org/">composer</a></p>
+
+<pre><code class="language-sh">composer.phar require 'zweifisch/zf:*'
+</code></pre>
+
+<p>if you're not using composer, download soruce code <a href="https://github.com/zweifisch/zf/tags">here</a></p>
+
+<pre><code class="language-php">require 'vendor/autoload.php'; #  require 'zf/zf.php'; if you are not using composer
+
+$app = new zf\App();
+
+$app-&gt;get('/hello/:name', function(){
+    $this-&gt;send(['hello' =&gt; $this-&gt;params-&gt;name]);
+})-&gt;run();
+</code></pre>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="assets/highlight.js"></script>
+	<script type="text/javascript">hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

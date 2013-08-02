@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="../assets/style.css" />
+	<link rel="stylesheet" href="../assets/github.css" />
+</head>
+<body>
+
+	<div class="container">
+		<div class="navigation-menu">
+
+			<ul class="menu-root">
+										<li class="navigation-menu-folder">
+					<a class=""
+						href="../getting_started.html">Getting Started</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="../routing/routing.html">Routing</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../routing/routing.html">Routing</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../routing/commandline.html">Commandline</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="../handle_requests/url_params.html">Handle Requests</a>
+											<li class="navigation-menu-article"  >
+							<a class=""
+								href="../handle_requests/url_params.html">URL Params</a>
+						</li>
+											<li class="navigation-menu-article"  >
+							<a class="current"
+								href="../handle_requests/request_body.html">Request Body</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../events.html">Events</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../helpers.html">Helpers</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../configs.html">Configs</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="../commandline/phar_distribution.html">Commandline</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../commandline/phar_distribution.html">Phar Distribution</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="../database/mongodb.html">Database</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../database/mongodb.html">Mongodb</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../database/pdo.html">PDO</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../database/redis.html">Redis</a>
+						</li>
+										</ul>
+				</li>
+									</ul>
+
+			<ul class="menu-links">
+								<li>
+					<a href="">Home</a>
+				</li>
+								<li>
+					<a href="https://github.com/zweifisch/zf">GitHub Repo</a>
+				</li>
+							</ul>
+
+		</div>
+		<div class="main-content">
+						<h1>Handle Requests: Request Body</h1>
+						<p>request body should be encoded as <code>application/json</code> or <code>application/x-www-form-urlencoded</code></p>
+
+<p>get an optional field</p>
+
+<pre><code class="language-js">{
+    "name": "foo",
+    "age": 0
+}
+</code></pre>
+
+<pre><code class="language-php">$app-&gt;post('user',function(){
+    $name = $this-&gt;body-&gt;name-&gt;asStr(); // name is required
+    $age = $this-&gt;body-&gt;age-&gt;asInt(20); // age is optinal, default is 20
+});
+</code></pre>
+
+<h2>validation</h2>
+
+<p><code>null</code> will returned if the key is not set, or failed to pass the validation rules</p>
+
+<pre><code class="language-php">$app-&gt;post('user',function(){
+    $age = $this-&gt;body-&gt;age-&gt;between(1,200)-&gt;asInt() or die();
+});
+</code></pre>
+
+<p>alternativly you can listen for the <code>VALIDATION_FAILED</code> event</p>
+
+<pre><code class="language-php">$app-&gt;post('user',function(){
+    $age = $this-&gt;body-&gt;age-&gt;between(1,200)-&gt;asInt();
+});
+
+$app-&gt;on(zf\VALIDATION_FAILED, function($detail){
+    $this-&gt;send(400, $detail);
+});
+</code></pre>
+
+<p>using multiple keys</p>
+
+<pre><code class="language-php">$app-&gt;post('user',function(){
+    $user = $this-&gt;body-&gt;validate([
+        'age:Int' =&gt; 'default:20|between:1,200',
+        'name' =&gt; 'minlen:4|maxlen:20',
+        'nickname' =&gt; 'optional|minlen:4|maxlen:20'
+        'password' =&gt; 'minlen:8|maxlen:100',
+    ]) or die();
+    $this-&gt;mongo-&gt;users-&gt;insert($user);
+});
+</code></pre>
+
+<h2>file upload</h2>
+
+<pre><code class="language-php">$app-&gt;post('user',function(){
+    $file = $this-&gt;body-&gt;avatar-&gt;asFile();
+    $this-&gt;mongo-&gt;avatars-&gt;insert([
+        'avatar'=&gt; new MongoBinData($file-&gt;content),
+        'extension'=&gt; $file-&gt;extension
+    ]);
+});
+</code></pre>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../assets/highlight.js"></script>
+	<script type="text/javascript">hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

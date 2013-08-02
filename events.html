@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="assets/style.css" />
+	<link rel="stylesheet" href="assets/github.css" />
+</head>
+<body>
+
+	<div class="container">
+		<div class="navigation-menu">
+
+			<ul class="menu-root">
+										<li class="navigation-menu-folder">
+					<a class=""
+						href="getting_started.html">Getting Started</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="routing/routing.html">Routing</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="routing/routing.html">Routing</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="routing/commandline.html">Commandline</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="handle_requests/url_params.html">Handle Requests</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="handle_requests/url_params.html">URL Params</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="handle_requests/request_body.html">Request Body</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<a class="current"
+						href="events.html">Events</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="helpers.html">Helpers</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="configs.html">Configs</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="commandline/phar_distribution.html">Commandline</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="commandline/phar_distribution.html">Phar Distribution</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="database/mongodb.html">Database</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="database/mongodb.html">Mongodb</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="database/pdo.html">PDO</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="database/redis.html">Redis</a>
+						</li>
+										</ul>
+				</li>
+									</ul>
+
+			<ul class="menu-links">
+								<li>
+					<a href="">Home</a>
+				</li>
+								<li>
+					<a href="https://github.com/zweifisch/zf">GitHub Repo</a>
+				</li>
+							</ul>
+
+		</div>
+		<div class="main-content">
+						<h1> Events</h1>
+						<p>register and emit</p>
+
+<pre><code class="language-php">$app-&gt;on('user:hit', function($data){
+    $this-&gt;mongo['events.user']-&gt;insert(['user'=&gt;$data['_id']);
+});
+
+$app-&gt;on('user:hit', function($data){
+    $this-&gt;redis-&gt;users-&gt;zincrby('hotusers', 1, $data['_id']);
+});
+
+$app-&gt;get('/user/:id', function($data){
+    $user = $this-&gt;mongo-&gt;user-&gt;findOne(['_id'=&gt;$this-&gt;params-&gt;id]);
+    $this-&gt;emit('user:hit', $user);
+    $this-&gt;send($user);
+});
+</code></pre>
+
+<p>handler with highest priority get called first, the default priority is <code>0</code></p>
+
+<pre><code class="language-php">$app-&gt;on('event', function(){
+    // will be called after all handlers
+})-&gt;priority(-1);
+</code></pre>
+
+<p>listening for multiple events</p>
+
+<pre><code class="language-php">$app-&gt;on('user:*', function($data, $event){
+    // will get called for `user:login`, `user:logout` etc.
+});
+</code></pre>
+
+<p>to stop an event, return a truthy value in the handler</p>
+
+<h3>predefined events</h3>
+
+<p><code>zf\EVENT_EXCEPTION</code><br />
+<code>zf\EVENT_ERROR</code><br />
+<code>zf\EVENT_SHUTDOWN</code><br />
+<code>zf\EVENT_VALIDATION_ERROR</code></p>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="assets/highlight.js"></script>
+	<script type="text/javascript">hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
