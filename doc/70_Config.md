@@ -28,3 +28,7 @@ $app->set('nofancy');  // equivelant to $app->set('fancy', false);
 
 $app->set(['pretty', 'nofancy', 'key'=>'value']);
 ```
+
+## predefined options
+
+TBD

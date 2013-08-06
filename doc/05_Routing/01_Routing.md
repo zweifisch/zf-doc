@@ -1,30 +1,28 @@
 
-restful routing
-
-## Resource
-
-declare a rousource
+closure as handler
 
 ```php
 $app = new zf\App;
-$app->resource('posts');
+$app->get('/ip', function(){
+	return $this->clientIP();  // $app can be accessed using $this
+});
 $app->run();
 ```
 
-which is equivelent to
+using external handler
 
 ```php
-$app->get('/posts', 'posts/index'); // handlers/posts/index.php
-$app->post('/posts', 'posts/create');
-$app->get('/posts/:posts', 'posts/show');
-
-$app->put('/posts/:posts', 'posts/update');
-$app->patch('/posts/:posts', 'posts/modify');
-$app->delete('/posts/:posts', 'posts/destroy');
-
-$app->post('/posts/:posts/:action', 'posts/$action'); // handlers/posts/$action.php
-
-$app->get('/posts', 'posts/new');
-$app->get('/posts/:posts/edit', 'posts/edit');
+$app->post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
 ```
 
+handlers/user/create.php
+
+```php
+<?php
+
+return function(){
+	$this->mongo->users->insert($this->request->body->asArray());
+	$this->status(201);
+	return ['ok'=>true, 'msg'=> 'user created'];
+};
+```

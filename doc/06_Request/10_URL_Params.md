@@ -1,4 +1,6 @@
 
+get params from url
+
 ```php
 $app->get('products/:id', function(){
 	$id = $this->params->id;
@@ -35,18 +37,41 @@ $app->get('products', function(){
 });
 ```
 
-preprocessing of params
+## preprocessing of params
+
+register a param handler
+
+```php
+$app->param('ids', function($value){
+	return explode(',', $value);
+});
+```
+
+when params get accessed, the registered handler will be called
 
 ```php
 $app->get('products/:ids', function(){
-	$this->params->ids;
+	$this->params->ids;  // '1,2,3' will be turned into [1,2,3]
 });
 
 $app->get('users/:ids', function(){
-	$this->params->ids;
+	// handler won't get called if $this->params->ids is not accessed
 });
+```
 
-$app->param('ids', function($value){
-	return explode(',', $value);
+eager handlers always get called
+
+```php
+$app->param('productIds', function($value){
+	$ids = explode(',', $value);
+	// `delayed` will return a closure, see Helper
+	$this->products = $this->helper->delayed->loadProducts($ids);
+	return $ids;
+})->eager();
+```
+
+```php
+$app->get('products/:productIds', function(){
+	return $this->products;
 });
 ```
