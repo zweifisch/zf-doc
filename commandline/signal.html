@@ -18,11 +18,11 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
 								href="../routing/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
@@ -76,19 +76,19 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../commandline/routing.html">Commandline</a>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
+											<li class="navigation-menu-article"  >
+							<a class="current"
 								href="../commandline/signal.html">Signal</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/miscs.html">Miscs</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/phar_distribution.html">Phar Distribution</a>
 						</li>
@@ -130,30 +130,32 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1>Commandline: Signal</h1>
+						<p>sigint example</p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;clientIP();  // $app can be accessed using $this
+<pre><code class="language-php">declare(ticks = 1);
+$app-&gt;cmd('forever', function(){
+    $this-&gt;log('presss ctrl-c to quit');
+    $this-&gt;done = false;
+    $this-&gt;counter = 0;
+    while(!$this-&gt;done){
+        $this-&gt;log('%s secs elapsed', ++$this-&gt;counter);
+        sleep(1);
+    }
+    $this-&gt;log('done');
 });
-$app-&gt;run();
+
+$app-&gt;sigint(function(){
+    $this-&gt;log('stopping');
+    $this-&gt;done = true;
+});
 </code></pre>
 
-<p>using external handler</p>
+<p>other signals</p>
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
-</code></pre>
-
-<p>handlers/user/create.php</p>
-
-<pre><code class="language-php">&lt;?php
-
-return function(){
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;request-&gt;body-&gt;asArray());
-    $this-&gt;status(201);
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+<pre><code class="language-php">$app-&gt;sigusr1(function(){
+    $this-&gt;log('USR1 caught');
+});
 </code></pre>
 		</div>
 	</div>

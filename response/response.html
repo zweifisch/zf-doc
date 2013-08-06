@@ -18,11 +18,11 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
 								href="../routing/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
@@ -44,15 +44,15 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../response/response.html">Response</a>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
+											<li class="navigation-menu-article"  >
+							<a class="current"
 								href="../response/response.html">Response</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../response/rendering_template.html">Rendering Template</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../response/miscs.html">Miscs</a>
 						</li>
@@ -130,30 +130,28 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1>Response: Response</h1>
+						<p>string will be send to client with content-type <code>text/html</code></p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;clientIP();  // $app can be accessed using $this
+<pre><code class="language-php">$app-&gt;post('/test', function(){
+    return "&lt;pre&gt;".var_export($this-&gt;body-&gt;asArray());
 });
-$app-&gt;run();
 </code></pre>
 
-<p>using external handler</p>
+<p>array will be encoded and send to client with content-type <code>application/json</code></p>
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
+<pre><code class="language-php">$app-&gt;set('pretty');  // pretty print
+
+$app-&gt;post('/test', function(){
+    return $this-&gt;body;
+});
 </code></pre>
 
-<p>handlers/user/create.php</p>
+<p>int will be send as http status</p>
 
-<pre><code class="language-php">&lt;?php
-
-return function(){
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;request-&gt;body-&gt;asArray());
-    $this-&gt;status(201);
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+<pre><code class="language-php">$app-&gt;post('/test', function(){
+    return 201;
+});
 </code></pre>
 		</div>
 	</div>

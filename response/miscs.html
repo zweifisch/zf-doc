@@ -18,11 +18,11 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
 								href="../routing/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
@@ -44,16 +44,16 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../response/response.html">Response</a>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../response/response.html">Response</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../response/rendering_template.html">Rendering Template</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
+											<li class="navigation-menu-article"  >
+							<a class="current"
 								href="../response/miscs.html">Miscs</a>
 						</li>
 										</ul>
@@ -130,31 +130,26 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1>Response: Miscs</h1>
+						<p>lastModified</p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;clientIP();  // $app can be accessed using $this
+<pre><code class="language-php">$this-&gt;lastModified($timestamp);
+</code></pre>
+
+<p>cacheControl</p>
+
+<pre><code class="language-php">$this-&gt;cacheControl('public', 'must-revalidate', ['max-age'=&gt; 60]);
+</code></pre>
+
+<p>jsonp</p>
+
+<pre><code class="language-php"><br />$app-&gt;get('/products', function(){
+    $this-&gt;set('jsonp', 'callback');
+    return iterator_to_array($this-&gt;mongo-&gt;products-&gt;find());
 });
-$app-&gt;run();
 </code></pre>
 
-<p>using external handler</p>
-
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
-</code></pre>
-
-<p>handlers/user/create.php</p>
-
-<pre><code class="language-php">&lt;?php
-
-return function(){
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;request-&gt;body-&gt;asArray());
-    $this-&gt;status(201);
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
-</code></pre>
+<p>if <code>$_GET['callback']</code> is set, javascript will be returned, otherwise json will be returned</p>
 		</div>
 	</div>
 

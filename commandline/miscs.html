@@ -24,41 +24,79 @@
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../routing/commandline.html">Commandline</a>
+								href="../routing/rest.html">REST</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="../handle_requests/url_params.html">Handle Requests</a>
+												<a href="../request/url_params.html">Request</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../request/url_params.html">URL Params</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../request/request_body.html">Request Body</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="../response/response.html">Response</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../response/response.html">Response</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../response/rendering_template.html">Rendering Template</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../response/miscs.html">Miscs</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../event.html">Event</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../component.html">Component</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../helper.html">Helper</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../config.html">Config</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../session.html">Session</a></li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="../commandline/routing.html">Commandline</a>
 											<li class="navigation-menu-article"  >
-							<a class="current"
-								href="../handle_requests/url_params.html">URL Params</a>
+							<a class=""
+								href="../commandline/routing.html">Routing</a>
 						</li>
 											<li class="navigation-menu-article"  >
 							<a class=""
-								href="../handle_requests/request_body.html">Request Body</a>
+								href="../commandline/signal.html">Signal</a>
 						</li>
-										</ul>
-				</li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../events.html">Events</a></li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../helpers.html">Helpers</a></li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../configs.html">Configs</a></li>
-													<li class="navigation-menu-folder">
-					<ul>
-												<a href="../commandline/phar_distribution.html">Commandline</a>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
+							<a class="current"
+								href="../commandline/miscs.html">Miscs</a>
+						</li>
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/phar_distribution.html">Phar Distribution</a>
 						</li>
 										</ul>
 				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../laziness.html">Laziness</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../database/mongodb.html">Database</a>
@@ -76,6 +114,9 @@
 						</li>
 										</ul>
 				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -89,53 +130,14 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Handle Requests: URL Params</h1>
-						<pre><code class="language-php">$app-&gt;get('products/:id', function(){
-    $id = $this-&gt;params-&gt;id;
-});
-</code></pre>
+						<h1>Commandline: Miscs</h1>
+						<p>get piped input</p>
 
-<p>optional params</p>
+<p>use <code>$this-&gt;getstdin();</code></p>
 
-<pre><code class="language-php">$app-&gt;get('products/:id?', function(){
-    if($this-&gt;params-&gt;id){
-        // show product by id
-    }else{
-        // $this-&gt;params-&gt;id is null, list all products
-    }
-});
-</code></pre>
+<p>print to stdout</p>
 
-<p>accessing params in query string</p>
-
-<p><code>/products?limit=20&amp;offset=20&amp;c=1</code></p>
-
-<pre><code class="language-php">$app-&gt;get('products', function(){
-    $limit = $this-&gt;query-&gt;limit-&gt;asInt(10);
-    $offset = $this-&gt;query-&gt;offset-&gt;asInt(0);
-    $category = $this-&gt;query-&gt;c-&gt;asStr('');
-    $keyword = $this-&gt;query-&gt;q-&gt;asStr('');
-    if($search){
-        // query db with keyword
-    }else{
-        // list all products
-    }
-});
-</code></pre>
-
-<p>preprocessing of params</p>
-
-<pre><code class="language-php">$app-&gt;get('products/:ids', function(){
-    $this-&gt;params-&gt;ids;
-});
-
-$app-&gt;get('users/:ids', function(){
-    $this-&gt;params-&gt;ids;
-});
-
-$app-&gt;param('ids', function($value){
-    return explode(',', $value);
-});
+<pre><code>$this-&gt;log('format %s %s', 'value', 'value');
 </code></pre>
 		</div>
 	</div>

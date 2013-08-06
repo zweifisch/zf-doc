@@ -18,11 +18,11 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
 								href="../routing/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
@@ -44,15 +44,15 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../response/response.html">Response</a>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../response/response.html">Response</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
+											<li class="navigation-menu-article"  >
+							<a class="current"
 								href="../response/rendering_template.html">Rendering Template</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../response/miscs.html">Miscs</a>
 						</li>
@@ -130,30 +130,27 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1>Response: Rendering Template</h1>
+						<p>loading templates</p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;clientIP();  // $app can be accessed using $this
+<pre><code class="language-php">$app-&gt;get('/dashboard', function(){
+    return $this-&gt;render('dasboard');  // views/dashboard.php
 });
-$app-&gt;run();
 </code></pre>
 
-<p>using external handler</p>
+<p>passing variables</p>
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
+<pre><code class="language-php">$app-&gt;get('/dashboard', function(){
+    return $this-&gt;render('dasboard', ['date'=&gt; date('Y-m-d')]);
+});
 </code></pre>
 
-<p>handlers/user/create.php</p>
+<p>dashboard.php</p>
 
-<pre><code class="language-php">&lt;?php
-
-return function(){
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;request-&gt;body-&gt;asArray());
-    $this-&gt;status(201);
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+<pre><code class="language-html">&lt;html&gt;
+&lt;span&gt; today is &lt;?= date?&gt; &lt;/span&gt;
+&lt;span&gt; &lt;?= $this-&gt;helper-&gt;fortune()?&gt; &lt;/span&gt;
+&lt;/html&gt;
 </code></pre>
 		</div>
 	</div>

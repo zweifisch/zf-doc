@@ -24,41 +24,79 @@
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="routing/commandline.html">Commandline</a>
+								href="routing/rest.html">REST</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="handle_requests/url_params.html">Handle Requests</a>
+												<a href="request/url_params.html">Request</a>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="handle_requests/url_params.html">URL Params</a>
+								href="request/url_params.html">URL Params</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="handle_requests/request_body.html">Request Body</a>
+								href="request/request_body.html">Request Body</a>
+						</li>
+										</ul>
+				</li>
+													<li class="navigation-menu-folder">
+					<ul>
+												<a href="response/response.html">Response</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="response/response.html">Response</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="response/rendering_template.html">Rendering Template</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="response/miscs.html">Miscs</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="events.html">Events</a></li>
+						href="event.html">Event</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class="current"
-						href="helpers.html">Helpers</a></li>
+						href="helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="configs.html">Configs</a></li>
+						href="config.html">Config</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="session.html">Session</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="commandline/phar_distribution.html">Commandline</a>
+												<a href="commandline/routing.html">Commandline</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="commandline/routing.html">Routing</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="commandline/signal.html">Signal</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="commandline/miscs.html">Miscs</a>
+						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="commandline/phar_distribution.html">Phar Distribution</a>
 						</li>
 										</ul>
 				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="laziness.html">Laziness</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="database/mongodb.html">Database</a>
@@ -76,6 +114,9 @@
 						</li>
 										</ul>
 				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -89,7 +130,7 @@
 
 		</div>
 		<div class="main-content">
-						<h1> Helpers</h1>
+						<h1> Helper</h1>
 						<p>helpers should be put in the <code>helpers</code> folder, or registered dynamically</p>
 
 <p>register a helper</p>
@@ -113,6 +154,20 @@
 </code></pre>
 
 <p>registrated helpers can be accessed as <code>$this-&gt;myhelper();</code></p>
+
+<h2>delayed</h2>
+
+<p>$app->helper is an instance of 'ClosureSet', which has a property <code>deplayed</code></p>
+
+<pre><code class="language-php">$this-&gt;helper-&gt;delayed-&gt;loadProduct($id);
+</code></pre>
+
+<p>is equivelent to</p>
+
+<pre><code class="language-php">function(){
+    $this-&gt;helper-&gt;loadProduct($id);
+}
+</code></pre>
 		</div>
 	</div>
 

@@ -18,11 +18,11 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
 								href="../routing/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
@@ -76,19 +76,19 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../commandline/routing.html">Commandline</a>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
+											<li class="navigation-menu-article"  >
+							<a class="current"
 								href="../commandline/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/signal.html">Signal</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/miscs.html">Miscs</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../commandline/phar_distribution.html">Phar Distribution</a>
 						</li>
@@ -130,30 +130,52 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1>Commandline: Routing</h1>
+						<p>passing arguments</p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;clientIP();  // $app can be accessed using $this
+<pre><code class="language-php">$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function(){
+    $src = $this-&gt;params-&gt;src;
+    $target = $this-&gt;params-&gt;target;
 });
-$app-&gt;run();
 </code></pre>
 
-<p>using external handler</p>
+<p>options</p>
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
+<pre><code class="language-php">$app-&gt;set('pretty');
+
+$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function(){
+    return $this-&gt;params;
+})-&gt;options(['overwrite','interactive']);
 </code></pre>
 
-<p>handlers/user/create.php</p>
+<pre><code class="language-bash">php cli.php mv --overwrite foo bar
+</code></pre>
 
-<pre><code class="language-php">&lt;?php
+<pre><code class="language-javascript">{
+    "overwrite": true,
+    "interactive": false,
+    "src": "foo",
+    "target": "bar"
+}
+</code></pre>
 
-return function(){
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;request-&gt;body-&gt;asArray());
-    $this-&gt;status(201);
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+<p>options with values</p>
+
+<pre><code class="language-php">$app-&gt;set('pretty');
+
+$app-&gt;cmd('mail &lt;to&gt;', function(){
+    return $this-&gt;params;
+})-&gt;options(['cc'=&gt;'','subject'=&gt;'untitled']);
+</code></pre>
+
+<pre><code class="language-bash">php cli.php mail --cc=foo@mail.com bar@mail.com
+</code></pre>
+
+<pre><code class="language-javascript">{
+    "cc": "foo@mail.com",
+    "subject": "untitled",
+    "to": "bar@mail.com"
+}
 </code></pre>
 		</div>
 	</div>

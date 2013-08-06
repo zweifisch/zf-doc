@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
-	<link rel="stylesheet" href="../assets/style.css" />
-	<link rel="stylesheet" href="../assets/github.css" />
+	<link rel="stylesheet" href="assets/style.css" />
+	<link rel="stylesheet" href="assets/github.css" />
 </head>
 <body>
 
@@ -14,109 +14,109 @@
 			<ul class="menu-root">
 										<li class="navigation-menu-folder">
 					<a class=""
-						href="../getting_started.html">Getting Started</a></li>
+						href="getting_started.html">Getting Started</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
-								href="../routing/routing.html">Routing</a>
-						</li>
-											<li class="navigation-menu-article"  >
+												<a href="routing/routing.html">Routing</a>
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../routing/rest.html">REST</a>
+								href="routing/routing.html">Routing</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="routing/rest.html">REST</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="../request/url_params.html">Request</a>
+												<a href="request/url_params.html">Request</a>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../request/url_params.html">URL Params</a>
+								href="request/url_params.html">URL Params</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../request/request_body.html">Request Body</a>
+								href="request/request_body.html">Request Body</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="../response/response.html">Response</a>
+												<a href="response/response.html">Response</a>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../response/response.html">Response</a>
+								href="response/response.html">Response</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../response/rendering_template.html">Rendering Template</a>
+								href="response/rendering_template.html">Rendering Template</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../response/miscs.html">Miscs</a>
+								href="response/miscs.html">Miscs</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="../event.html">Event</a></li>
+						href="event.html">Event</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="../component.html">Component</a></li>
+						href="component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="../helper.html">Helper</a></li>
+						href="helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="../config.html">Config</a></li>
+						href="config.html">Config</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
-						href="../session.html">Session</a></li>
+					<a class="current"
+						href="session.html">Session</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="../commandline/routing.html">Commandline</a>
+												<a href="commandline/routing.html">Commandline</a>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../commandline/routing.html">Routing</a>
+								href="commandline/routing.html">Routing</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../commandline/signal.html">Signal</a>
+								href="commandline/signal.html">Signal</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../commandline/miscs.html">Miscs</a>
+								href="commandline/miscs.html">Miscs</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../commandline/phar_distribution.html">Phar Distribution</a>
+								href="commandline/phar_distribution.html">Phar Distribution</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="../laziness.html">Laziness</a></li>
+						href="laziness.html">Laziness</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
-												<a href="../database/mongodb.html">Database</a>
+												<a href="database/mongodb.html">Database</a>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../database/mongodb.html">Mongodb</a>
+								href="database/mongodb.html">Mongodb</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../database/pdo.html">PDO</a>
+								href="database/pdo.html">PDO</a>
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../database/redis.html">Redis</a>
+								href="database/redis.html">Redis</a>
 						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
 					<a class=""
-						href="../miscs.html">Miscs</a></li>
+						href="miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -130,35 +130,49 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1> Session</h1>
+						<p>register as a component</p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;clientIP();  // $app can be accessed using $this
+<pre><code class="language-php">$app-&gt;register('session', '\zf\Session');
+</code></pre>
+
+<p>a login example</p>
+
+<pre><code class="language-php">$app-&gt;get('/admin', function(){
+    if($this-&gt;session-&gt;login){
+        return $this-&gt;render('dashboard',['login'=&gt;$this-&gt;session-&gt;login]);
+    }
+    $this-&gt;redirect('/login');
 });
-$app-&gt;run();
-</code></pre>
 
-<p>using external handler</p>
+$app-&gt;get('/login', function(){
+    return $this-&gt;render('login');
+});
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
-</code></pre>
+$app-&gt;post('/login', function(){
+    $user = $this-&gt;db-&gt;user-&gt;fetchOne([
+        'login' =&gt; $this-&gt;body-&gt;login-&gt;asStr(),
+        'password' =&gt; $this-&gt;body-&gt;password-&gt;asPassword(),
+    ]);
+    if($user){
+        $this-&gt;session-&gt;set([
+            'login' =&gt; $user['login'],
+            'id' =&gt; $user['id'],
+        ]);
+        return $this-&gt;redirect('/admin');
+    }
+    return $this-&gt;render('login');
+});
 
-<p>handlers/user/create.php</p>
-
-<pre><code class="language-php">&lt;?php
-
-return function(){
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;request-&gt;body-&gt;asArray());
-    $this-&gt;status(201);
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+$this-&gt;get('/logout', function(){
+    $this-&gt;session-&gt;destroy();
+    $this-&gt;redirect('/login');
+});
 </code></pre>
 		</div>
 	</div>
 
-	<script type="text/javascript" src="../assets/highlight.js"></script>
+	<script type="text/javascript" src="assets/highlight.js"></script>
 	<script type="text/javascript">hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
