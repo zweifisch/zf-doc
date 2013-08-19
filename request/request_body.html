@@ -170,10 +170,9 @@ $app-&gt;on(zf\VALIDATION_FAILED, function($detail){
 <p>using multiple keys</p>
 
 <pre><code class="language-php">$app-&gt;post('user',function(){
-    $user = $this-&gt;body-&gt;validate([
+    $user = $this-&gt;body-&gt;extract([
         'age:Int' =&gt; 'default:20|between:1,200',
         'name' =&gt; 'minlen:4|maxlen:20',
-        'nickname' =&gt; 'optional|minlen:4|maxlen:20'
         'password' =&gt; 'minlen:8|maxlen:100',
     ]) or die();
     $this-&gt;mongo-&gt;users-&gt;insert($user);
