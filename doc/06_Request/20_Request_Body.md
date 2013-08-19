@@ -43,10 +43,9 @@ using multiple keys
 
 ```php
 $app->post('user',function(){
-	$user = $this->body->validate([
+	$user = $this->body->extract([
 		'age:Int' => 'default:20|between:1,200',
 		'name' => 'minlen:4|maxlen:20',
-		'nickname' => 'optional|minlen:4|maxlen:20'
 		'password' => 'minlen:8|maxlen:100',
 	]) or die();
 	$this->mongo->users->insert($user);
