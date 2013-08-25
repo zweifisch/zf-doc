@@ -23,3 +23,17 @@ dashboard.php
 <span> <?= $this->helper->fortune()?> </span>
 </html>
 ```
+
+## using mustache
+
+```php
+$app->set('view engine', 'mustache');
+
+$app->get('/', function(){
+	// render index.mustache
+	return $this->render('index', [
+		'foo' => 'bar',
+		'upper' => $this->helper->upper,
+	]);
+});
+```

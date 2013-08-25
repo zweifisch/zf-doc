@@ -1,7 +1,7 @@
 
 install using [composer](http://getcomposer.org/)
 ```sh
-composer.phar require 'zweifisch/zf:*'
+composer.phar require 'zweifisch/zf:dev-master'
 ```
 
 if you're not using composer, download soruce code [here](https://github.com/zweifisch/zf/tags)
