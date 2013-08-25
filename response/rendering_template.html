@@ -26,6 +26,10 @@
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../routing/rpc.html">RPC</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -151,6 +155,19 @@
 &lt;span&gt; today is &lt;?= date?&gt; &lt;/span&gt;
 &lt;span&gt; &lt;?= $this-&gt;helper-&gt;fortune()?&gt; &lt;/span&gt;
 &lt;/html&gt;
+</code></pre>
+
+<h2>using mustache</h2>
+
+<pre><code class="language-php">$app-&gt;set('view engine', 'mustache');
+
+$app-&gt;get('/', function(){
+    // render index.mustache
+    return $this-&gt;render('index', [
+        'foo' =&gt; 'bar',
+        'upper' =&gt; $this-&gt;helper-&gt;upper,
+    ]);
+});
 </code></pre>
 		</div>
 	</div>
