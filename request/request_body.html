@@ -43,6 +43,10 @@
 							<a class="current"
 								href="../request/request_body.html">Request Body</a>
 						</li>
+											<li class="navigation-menu-article"  >
+							<a class=""
+								href="../request/validation.html">Validation</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -135,7 +139,7 @@
 		</div>
 		<div class="main-content">
 						<h1>Request: Request Body</h1>
-						<p>request body should be encoded as <code>application/json</code> or <code>application/x-www-form-urlencoded</code></p>
+						<p>request body should be encoded as <code>application/json</code> or <code>application/x-www-form-urlencoded</code> or <code>application/x-msgpack</code></p>
 
 <p>get an optional field</p>
 
@@ -153,7 +157,7 @@
 
 <h2>validation</h2>
 
-<p><code>null</code> will returned if the key is not set, or failed to pass the validation rules</p>
+<p><code>null</code> will be returned if the key is not set, or failed to pass the validation rules</p>
 
 <pre><code class="language-php">$app-&gt;post('user',function(){
     $age = $this-&gt;body-&gt;age-&gt;between(1,200)-&gt;asInt() or die();

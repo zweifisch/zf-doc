@@ -43,6 +43,10 @@
 							<a class=""
 								href="request/request_body.html">Request Body</a>
 						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="request/validation.html">Validation</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -140,24 +144,30 @@
 <pre><code class="language-sh">composer.phar require 'zweifisch/zf:dev-master'
 </code></pre>
 
-<p>if you're not using composer, download soruce code <a href="https://github.com/zweifisch/zf/tags">here</a></p>
-
 <p>create a index.php</p>
 
 <pre><code class="language-php">&lt;?php
 
-require 'vendor/autoload.php'; #  require 'zf/zf.php'; if you are not using composer
+require 'vendor/autoload.php';
 
 $app = new zf\App();
 
-$app-&gt;get('/hello/:name', function(){
-    return ['hello' =&gt; $this-&gt;params-&gt;name];
-})-&gt;run();
+$app-&gt;get('/hello/:name', function($name, $more=''){
+    return ['hello' =&gt; $name.$more];
+});
+
+$app-&gt;run();
 </code></pre>
 
 <p>start the built-in php server</p>
 
 <pre><code class="language-bash">php -S 0.0.0.0:5000
+</code></pre>
+
+<pre><code>curl localhost:5000/hello/zf
+# {"hello":"zf"}
+curl 'localhost:5000/hello/zf?more=!'
+# {"hello":"zf!"}
 </code></pre>
 		</div>
 	</div>

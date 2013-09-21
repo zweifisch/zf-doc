@@ -43,6 +43,10 @@
 							<a class=""
 								href="../request/request_body.html">Request Body</a>
 						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../request/validation.html">Validation</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -146,10 +150,10 @@ $app-&gt;run();
 
 <p>using external handler</p>
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
+<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php
 </code></pre>
 
-<p>handlers/user/create.php</p>
+<p><code>handlers/user/create.php</code></p>
 
 <pre><code class="language-php">&lt;?php
 

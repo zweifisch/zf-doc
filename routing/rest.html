@@ -43,6 +43,10 @@
 							<a class=""
 								href="../request/request_body.html">Request Body</a>
 						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../request/validation.html">Validation</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -143,16 +147,14 @@
 <p>it is equivelent to</p>
 
 <pre><code class="language-php">$app-&gt;get('/posts', 'posts/index');
+$app-&gt;get('/posts/new', 'posts/new');
 $app-&gt;post('/posts', 'posts/create');
 $app-&gt;get('/posts/:posts', 'posts/show');
-
+$app-&gt;get('/posts/:posts/edit', 'posts/edit');
 $app-&gt;put('/posts/:posts', 'posts/update');
 $app-&gt;patch('/posts/:posts', 'posts/modify');
 $app-&gt;delete('/posts/:posts', 'posts/destroy');
-
 $app-&gt;post('/posts/:posts/:action', 'posts/$action');
-
-$app-&gt;get('/posts/:posts/edit', 'posts/edit');
 </code></pre>
 		</div>
 	</div>

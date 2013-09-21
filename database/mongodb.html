@@ -43,6 +43,10 @@
 							<a class=""
 								href="../request/request_body.html">Request Body</a>
 						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../request/validation.html">Validation</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -139,27 +143,25 @@
 
 <p>configuration in configs.php</p>
 
-<pre><code class="language-php">$exports['mongo'] = [
-    'users','articles' =&gt; [
-        'url' =&gt; 'mongodb://10.0.1.1:27017,10.0.1.2:27017',
-        'database'=&gt; 'production',
-        'options' =&gt; [
-            'replicaSet'=&gt; 'rs0',
-            'readPreference' =&gt; \MongoClient::RP_SECONDARY_PREFERRED,
+<pre><code class="language-php">return [
+    'components' =&gt; [
+        'mongo:\zf\Mongo' =&gt; [
+            'users','articles' =&gt; [
+                'url' =&gt; 'mongodb://10.0.1.1:27017,10.0.1.2:27017',
+                'database'=&gt; 'production',
+                'options' =&gt; [
+                    'replicaSet'=&gt; 'rs0',
+                    'readPreference' =&gt; \MongoClient::RP_SECONDARY_PREFERRED,
+                ],
+            ],
+            'logs.errors' =&gt; [
+                'url' =&gt; 'mongodb://10.0.2.1:27017',
+                'database'=&gt; 'production',
+            ],
         ],
-    ],
-    'logs.errors' =&gt; [
-        'url' =&gt; 'mongodb://10.0.2.1:27017',
-        'database'=&gt; 'production',
     ],
 ];
 
-return $exports;
-</code></pre>
-
-<p>register as a component</p>
-
-<pre><code class="language-php">$app-&gt;register('mongo', '\zf\Mongo');
 </code></pre>
 
 <p>query</p>
@@ -177,6 +179,25 @@ return $exports;
 
 <pre><code class="language-php">$app-&gt;on('error:*',function($data, $event){
     $this-&gt;mongo['logs.errors']-&gt;insert(['type'=&gt;$event, 'data'=&gt;$data]);
+});
+</code></pre>
+
+<p>GridFS</p>
+
+<pre><code class="language-php">return [
+    'components' =&gt; [
+        'mongo:zf\Mongo' =&gt; [
+            'posts','attchments:GridFS' =&gt; [
+                'url'        =&gt; 'mongodb://localhost:27017',
+                'database'   =&gt; 'project',
+            ],
+        ],
+    ],
+];
+</code></pre>
+
+<pre><code class="language-php">$app-&gt;post('/attachment', function(){
+    $this-&gt;mongo-&gt;attchments-&gt;storeUpload('attachment');
 });
 </code></pre>
 		</div>

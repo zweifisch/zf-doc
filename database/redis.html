@@ -43,6 +43,10 @@
 							<a class=""
 								href="../request/request_body.html">Request Body</a>
 						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../request/validation.html">Validation</a>
+						</li>
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
@@ -137,21 +141,20 @@
 						<h1>Database: Redis</h1>
 						<p>install the redis extension <a href="https://github.com/nicolasff/phpredis">phpredis</a></p>
 
-<p>configuration</p>
+<p>configuration in configs.php</p>
 
-<pre><code class="language-php">$exports['redis'] = [
-    'product' =&gt; [
-        'host'     =&gt; 'localhost',
-        'pconnect' =&gt; true,
-    ]
+<pre><code class="language-php">return [
+    'components' =&gt; [
+        'redis' =&gt; [
+            'product' =&gt; [
+                'host'     =&gt; 'localhost',
+                'pconnect' =&gt; true,
+            ],
+        ],
+        // ...
+    ],
+    // ...
 ];
-
-return $exports;
-</code></pre>
-
-<p>register as a component</p>
-
-<pre><code class="language-php">$app-&gt;register('redis','\zf\Redis');
 </code></pre>
 
 <pre><code>$app-&gt;get('/product/:id', function(){
