@@ -12,10 +12,10 @@ $app->run();
 using external handler
 
 ```php
-$app->post('/users', 'users/create');  // load from handlers/users/create.php, path is configurable
+$app->post('/users', 'users/create');  // load from handlers/users/create.php
 ```
 
-handlers/user/create.php
+`handlers/user/create.php`
 
 ```php
 <?php

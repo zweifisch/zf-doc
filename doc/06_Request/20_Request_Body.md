@@ -1,5 +1,5 @@
 
-request body should be encoded as `application/json` or `application/x-www-form-urlencoded`
+request body should be encoded as `application/json` or `application/x-www-form-urlencoded` or `application/x-msgpack`
 
 get an optional field
 
@@ -19,7 +19,7 @@ $app->post('user',function(){
 
 ## validation
 
-`null` will returned if the key is not set, or failed to pass the validation rules
+`null` will be returned if the key is not set, or failed to pass the validation rules
 
 ```php
 $app->post('user',function(){
@@ -63,4 +63,3 @@ $app->post('user',function(){
 	]);
 });
 ```
-

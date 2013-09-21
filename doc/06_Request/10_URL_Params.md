@@ -2,8 +2,8 @@
 get params from url
 
 ```php
-$app->get('products/:id', function(){
-	$id = $this->params->id;
+$app->get('products/:id', function($id){
+	$id == $this->params->id;  // true
 });
 ```
 
@@ -19,7 +19,7 @@ $app->get('products/:id?', function(){
 });
 ```
 
-accessing params in query string
+## accessing params in query string
 
 `/products?limit=20&offset=20&c=1`
 
@@ -28,12 +28,14 @@ $app->get('products', function(){
 	$limit = $this->query->limit->asInt(10);
 	$offset = $this->query->offset->asInt(0);
 	$category = $this->query->c->asStr('');
-	$keyword = $this->query->q->asStr('');
-	if($search){
-		// query db with keyword
-	}else{
-		// list all products
-	}
+});
+```
+
+or more concisely
+
+```php
+$app->get('products', function($c, $limit=10, $offset=0) {
+	// if $c is not set, 404 will be returned
 });
 ```
 

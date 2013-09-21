@@ -1,23 +1,21 @@
 
 install the redis extension [phpredis](https://github.com/nicolasff/phpredis)
 
-configuration
+configuration in configs.php
 
 ```php
-$exports['redis'] = [
-	'product' => [
-		'host'     => 'localhost',
-		'pconnect' => true,
-	]
+return [
+	'components' => [
+		'redis' => [
+			'product' => [
+				'host'     => 'localhost',
+				'pconnect' => true,
+			],
+		],
+		// ...
+	],
+	// ...
 ];
-
-return $exports;
-```
-
-register as a component
-
-```php
-$app->register('redis','\zf\Redis');
 ```
 
 ```
