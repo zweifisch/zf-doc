@@ -18,15 +18,15 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../routing/routing.html">Routing</a>
-											<li class="navigation-menu-article"  >
-							<a class="current"
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
 								href="../routing/routing.html">Routing</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rest.html">REST</a>
 						</li>
-											<li class="navigation-menu-article"  >
+											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
 								href="../routing/rpc.html">RPC</a>
 						</li>
@@ -80,12 +80,12 @@
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../session/session.html">Session</a>
-											<li class="navigation-menu-article" style="display:none" >
+											<li class="navigation-menu-article"  >
 							<a class=""
 								href="../session/session.html">Session</a>
 						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
+											<li class="navigation-menu-article"  >
+							<a class="current"
 								href="../session/user.html">User</a>
 						</li>
 										</ul>
@@ -144,31 +144,43 @@
 
 		</div>
 		<div class="main-content">
-						<h1>Routing: Routing</h1>
-						<p>closure as handler</p>
+						<h1>Session: User</h1>
+						<p>login example using the <code>user</code> component</p>
 
-<pre><code class="language-php">$app = new zf\App;
-$app-&gt;get('/ip', function(){
-    return $this-&gt;request-&gt;ip;  // $app can be accessed using $this
+<pre><code class="language-php">$app-&gt;middleware('is', function($role){
+    if(!$this-&gt;user-&gt;is($role)){
+        $this-&gt;redirect('/login');
+    }
 });
-$app-&gt;run();
-</code></pre>
 
-<p>using external handler</p>
+$app-&gt;get('/admin', 'is:Admin', function(){
+    return $this-&gt;render('dashboard',['username'=&gt;$this-&gt;user-&gt;username]);
+});
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php
-</code></pre>
+$app-&gt;get('/login', function(){
+    return $this-&gt;render('login');
+});
 
-<p>inside <code>handlers/user/create.php</code></p>
+$app-&gt;post('/login', function(){
+    $user = $this-&gt;db-&gt;user-&gt;fetchOne([
+        'username' =&gt; $this-&gt;body-&gt;login,
+        'password' =&gt; $this-&gt;body-&gt;password,
+    ]);
+    if($user){
+        $this-&gt;user-&gt;login($user['id'], [
+            'username' =&gt; $user['username'],
+            'role' =&gt; $user['role'],
+            'permissions' =&gt; $user['permissions'],
+        ]);
+        return $this-&gt;redirect('/admin');
+    }
+    return $this-&gt;render('login');
+});
 
-<pre><code class="language-php">&lt;?php
-
-return function(){
-    // the unparsed request body can be accessed as $this-&gt;request-&gt;body
-    $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;body);
-    $this-&gt;response-&gt;status = 201;
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+$this-&gt;get('/logout', function(){
+    $this-&gt;user-&gt;logout();
+    $this-&gt;redirect('/login');
+});
 </code></pre>
 		</div>
 	</div>

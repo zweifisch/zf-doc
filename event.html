@@ -41,10 +41,6 @@
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="request/request_body.html">Request Body</a>
-						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
 								href="request/validation.html">Validation</a>
 						</li>
 										</ul>
@@ -74,13 +70,26 @@
 						href="component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
+						href="middleware.html">Middleware</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
 						href="helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
 						href="config.html">Config</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
-						href="session.html">Session</a></li>
+					<ul>
+												<a href="session/session.html">Session</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="session/session.html">Session</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="session/user.html">User</a>
+						</li>
+										</ul>
+				</li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="commandline/routing.html">Commandline</a>
@@ -122,9 +131,6 @@
 						</li>
 										</ul>
 				</li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -139,20 +145,20 @@
 		</div>
 		<div class="main-content">
 						<h1> Event</h1>
-						<p>register and emit</p>
+						<p>registering and triggering events</p>
 
-<pre><code class="language-php">$app-&gt;on('user:hit', function($data){
+<pre><code class="language-php">$app-&gt;on('user:hit', function($data) {
     $this-&gt;mongo['events.user']-&gt;insert(['user'=&gt;$data['_id']);
 });
 
-$app-&gt;on('user:hit', function($data){
+$app-&gt;on('user:hit', function($data) {
     $this-&gt;redis-&gt;users-&gt;zincrby('hotusers', 1, $data['_id']);
 });
 
-$app-&gt;get('/user/:id', function($data){
-    $user = $this-&gt;mongo-&gt;user-&gt;findOne(['_id'=&gt;$this-&gt;params-&gt;id]);
+$app-&gt;get('/user/:id', function($id) {
+    $user = $this-&gt;mongo-&gt;user-&gt;findOne(['_id'=&gt;$id]);
     $this-&gt;emit('user:hit', $user);
-    $this-&gt;send($user);
+    return $user;
 });
 </code></pre>
 
@@ -170,14 +176,21 @@ $app-&gt;get('/user/:id', function($data){
 });
 </code></pre>
 
+<p>registering event handlers using the <code>$app-&gt;onSomeEvent</code> method</p>
+
+<pre><code class="language-php">$app-&gt;onEvent($callback); // same as $app-&gt;on('event', $callback);
+</code></pre>
+
 <p>to stop an event, return a truthy value in the handler</p>
 
 <h3>predefined events</h3>
 
-<p><code>zf\EVENT_EXCEPTION</code><br />
-<code>zf\EVENT_ERROR</code><br />
-<code>zf\EVENT_SHUTDOWN</code><br />
-<code>zf\EVENT_VALIDATION_ERROR</code></p>
+<p>'exception', 'error', 'shutdown'</p>
+
+<p><code>php
+$app-&gt;onShutdown(function() {
+    echo 'bye';
+});</code>php</p>
 		</div>
 	</div>
 

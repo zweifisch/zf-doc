@@ -41,10 +41,6 @@
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../request/request_body.html">Request Body</a>
-						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
 								href="../request/validation.html">Validation</a>
 						</li>
 										</ul>
@@ -74,13 +70,26 @@
 						href="../component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
+						href="../middleware.html">Middleware</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
 						href="../helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
 						href="../config.html">Config</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
-						href="../session.html">Session</a></li>
+					<ul>
+												<a href="../session/session.html">Session</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/session.html">Session</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/user.html">User</a>
+						</li>
+										</ul>
+				</li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../commandline/routing.html">Commandline</a>
@@ -122,9 +131,6 @@
 						</li>
 										</ul>
 				</li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -141,18 +147,23 @@
 						<h1>Response: Miscs</h1>
 						<p>lastModified</p>
 
-<pre><code class="language-php">$this-&gt;lastModified($timestamp);
+<pre><code class="language-php">$this-&gt;response-&gt;lastModified($timestamp);
 </code></pre>
 
 <p>cacheControl</p>
 
-<pre><code class="language-php">$this-&gt;cacheControl('public', 'must-revalidate', ['max-age'=&gt; 60]);
+<pre><code class="language-php">$this-&gt;response-&gt;cacheControl('public', 'must-revalidate', ['max-age'=&gt; 60]);
+</code></pre>
+
+<p>redirect</p>
+
+<pre><code class="language-php">$this-&gt;response-&gt;redirect($url);
+$this-&gt;response-&gt;redirect($url, true); // 301
 </code></pre>
 
 <p>jsonp</p>
 
-<pre><code class="language-php"><br />$app-&gt;get('/products', function(){
-    $this-&gt;set('jsonp', 'callback');
+<pre><code class="language-php">$app-&gt;get('/products', 'jsonp:callback', function() {
     return iterator_to_array($this-&gt;mongo-&gt;products-&gt;find());
 });
 </code></pre>

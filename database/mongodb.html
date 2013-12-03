@@ -41,10 +41,6 @@
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../request/request_body.html">Request Body</a>
-						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
 								href="../request/validation.html">Validation</a>
 						</li>
 										</ul>
@@ -74,13 +70,26 @@
 						href="../component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
+						href="../middleware.html">Middleware</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
 						href="../helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
 						href="../config.html">Config</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
-						href="../session.html">Session</a></li>
+					<ul>
+												<a href="../session/session.html">Session</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/session.html">Session</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/user.html">User</a>
+						</li>
+										</ul>
+				</li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../commandline/routing.html">Commandline</a>
@@ -122,9 +131,6 @@
 						</li>
 										</ul>
 				</li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -145,19 +151,21 @@
 
 <pre><code class="language-php">return [
     'components' =&gt; [
-        'mongo:\zf\Mongo' =&gt; [
-            'users','articles' =&gt; [
-                'url' =&gt; 'mongodb://10.0.1.1:27017,10.0.1.2:27017',
-                'database'=&gt; 'production',
-                'options' =&gt; [
-                    'replicaSet'=&gt; 'rs0',
-                    'readPreference' =&gt; \MongoClient::RP_SECONDARY_PREFERRED,
+        'mongo' =&gt; 'Mongo', [
+            'collections' =&gt; [
+                'users','articles' =&gt; [
+                    'url' =&gt; 'mongodb://10.0.1.1:27017,10.0.1.2:27017',
+                    'database'=&gt; 'production',
+                    'options' =&gt; [
+                        'replicaSet'=&gt; 'rs0',
+                        'readPreference' =&gt; \MongoClient::RP_SECONDARY_PREFERRED,
+                    ],
                 ],
-            ],
-            'logs.errors' =&gt; [
-                'url' =&gt; 'mongodb://10.0.2.1:27017',
-                'database'=&gt; 'production',
-            ],
+                'logs.errors' =&gt; [
+                    'url' =&gt; 'mongodb://10.0.2.1:27017',
+                    'database'=&gt; 'production',
+                ],
+            ]
         ],
     ],
 ];
@@ -166,37 +174,37 @@
 
 <p>query</p>
 
-<pre><code class="language-php">$app-&gt;get('/user/:id', function(){
-    if($user = $this-&gt;mongo-&gt;users-&gt;findOne(['_id'=&gt;$this-&gt;params-&gt;id])){
-        $this-&gt;send($user);
-    }else{
-        $this-&gt;emit('error:user', ['id'=&gt; $this-&gt;params-&gt;id])-&gt;send(404);
+<pre><code class="language-php">$app-&gt;get('/user/:id', function($id) {
+    if($user = $this-&gt;mongo-&gt;users-&gt;findOne(['_id'=&gt;$id])) {
+        return $user;
+    } else {
+        return 404;
     }
 });
 </code></pre>
 
 <p>accessing a collection with a dot in name</p>
 
-<pre><code class="language-php">$app-&gt;on('error:*',function($data, $event){
-    $this-&gt;mongo['logs.errors']-&gt;insert(['type'=&gt;$event, 'data'=&gt;$data]);
-});
+<pre><code class="language-php">$this-&gt;mongo['logs.errors']-&gt;insert($data);
 </code></pre>
 
 <p>GridFS</p>
 
 <pre><code class="language-php">return [
     'components' =&gt; [
-        'mongo:zf\Mongo' =&gt; [
-            'posts','attchments:GridFS' =&gt; [
-                'url'        =&gt; 'mongodb://localhost:27017',
-                'database'   =&gt; 'project',
-            ],
+        'mongo' =&gt; 'Mongo', [
+            'collections' =&gt; [
+                'posts','attchments:GridFS' =&gt; [
+                    'url'        =&gt; 'mongodb://localhost:27017',
+                    'database'   =&gt; 'project',
+                ],
+            ]
         ],
     ],
 ];
 </code></pre>
 
-<pre><code class="language-php">$app-&gt;post('/attachment', function(){
+<pre><code class="language-php">$app-&gt;post('/attachment', function() {
     $this-&gt;mongo-&gt;attchments-&gt;storeUpload('attachment');
 });
 </code></pre>

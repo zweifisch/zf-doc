@@ -41,10 +41,6 @@
 						</li>
 											<li class="navigation-menu-article"  >
 							<a class=""
-								href="../request/request_body.html">Request Body</a>
-						</li>
-											<li class="navigation-menu-article"  >
-							<a class=""
 								href="../request/validation.html">Validation</a>
 						</li>
 										</ul>
@@ -74,13 +70,26 @@
 						href="../component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
+						href="../middleware.html">Middleware</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
 						href="../helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
 						href="../config.html">Config</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
-						href="../session.html">Session</a></li>
+					<ul>
+												<a href="../session/session.html">Session</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/session.html">Session</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/user.html">User</a>
+						</li>
+										</ul>
+				</li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../commandline/routing.html">Commandline</a>
@@ -122,9 +131,6 @@
 						</li>
 										</ul>
 				</li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -139,19 +145,19 @@
 		</div>
 		<div class="main-content">
 						<h1>Request: URL Params</h1>
-						<p>get params from url</p>
+						<p>getting params from url</p>
 
-<pre><code class="language-php">$app-&gt;get('products/:id', function($id){
+<pre><code class="language-php">$app-&gt;get('products/:id', function($id) {
     $id == $this-&gt;params-&gt;id;  // true
 });
 </code></pre>
 
 <p>optional params</p>
 
-<pre><code class="language-php">$app-&gt;get('products/:id?', function(){
+<pre><code class="language-php">$app-&gt;get('products/:id?', function() {
     if($this-&gt;params-&gt;id){
         // show product by id
-    }else{
+    } else {
         // $this-&gt;params-&gt;id is null, list all products
     }
 });
@@ -160,15 +166,6 @@
 <h2>accessing params in query string</h2>
 
 <p><code>/products?limit=20&amp;offset=20&amp;c=1</code></p>
-
-<pre><code class="language-php">$app-&gt;get('products', function(){
-    $limit = $this-&gt;query-&gt;limit-&gt;asInt(10);
-    $offset = $this-&gt;query-&gt;offset-&gt;asInt(0);
-    $category = $this-&gt;query-&gt;c-&gt;asStr('');
-});
-</code></pre>
-
-<p>or more concisely</p>
 
 <pre><code class="language-php">$app-&gt;get('products', function($c, $limit=10, $offset=0) {
     // if $c is not set, 404 will be returned
@@ -179,36 +176,36 @@
 
 <p>register a param handler</p>
 
-<pre><code class="language-php">$app-&gt;param('ids', function($value){
+<pre><code class="language-php">$app-&gt;param('ids', function($value) {
     return explode(',', $value);
 });
 </code></pre>
 
 <p>when params get accessed, the registered handler will be called</p>
 
-<pre><code class="language-php">$app-&gt;get('products/:ids', function(){
-    $this-&gt;params-&gt;ids;  // '1,2,3' will be turned into [1,2,3]
+<pre><code class="language-php">$app-&gt;get('products/:ids', function($ids) {
+    // ids should be [1,2,3] if request path is 'products/1,2,3'
 });
 
-$app-&gt;get('users/:ids', function(){
+$app-&gt;get('users/:ids', function() {
     // handler won't get called if $this-&gt;params-&gt;ids is not accessed
 });
 </code></pre>
 
-<p>eager handlers always get called</p>
+<p>usecase: preloading data</p>
 
-<pre><code class="language-php">$app-&gt;param('productIds', function($value){
-    $ids = explode(',', $value);
-    // `delayed` will return a closure, see Helper
-    $this-&gt;products = $this-&gt;helper-&gt;delayed-&gt;loadProducts($ids);
-    return $ids;
-})-&gt;eager();
-</code></pre>
+<pre><code class="language-php">$app-&gt;param('product_id', function($id) {
+    $this-&gt;product = function() use ($id) {
+        return $this-&gt;db-&gt;findOne(['_id' =&gt; $id]);
+    };
+});
 
-<pre><code class="language-php">$app-&gt;get('products/:productIds', function(){
-    return $this-&gt;products;
+$app-&gt;get('product/:product_id', function($product_id) {
+    return $this-&gt;product ? $this-&gt;product : 404;
 });
 </code></pre>
+
+<p><code>$product_id</code> must be put in the handler's arguments list or be accessed using <code>$this-&gt;params-&gt;product_id</code> otherwise the param handler above won't be called; also note that <code>$this-&gt;product</code> won't be evaluated until it's accessed</p>
 		</div>
 	</div>
 

@@ -41,10 +41,6 @@
 						</li>
 											<li class="navigation-menu-article" style="display:none" >
 							<a class=""
-								href="../request/request_body.html">Request Body</a>
-						</li>
-											<li class="navigation-menu-article" style="display:none" >
-							<a class=""
 								href="../request/validation.html">Validation</a>
 						</li>
 										</ul>
@@ -74,13 +70,26 @@
 						href="../component.html">Component</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
+						href="../middleware.html">Middleware</a></li>
+													<li class="navigation-menu-folder">
+					<a class=""
 						href="../helper.html">Helper</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
 						href="../config.html">Config</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
-						href="../session.html">Session</a></li>
+					<ul>
+												<a href="../session/session.html">Session</a>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/session.html">Session</a>
+						</li>
+											<li class="navigation-menu-article" style="display:none" >
+							<a class=""
+								href="../session/user.html">User</a>
+						</li>
+										</ul>
+				</li>
 													<li class="navigation-menu-folder">
 					<ul>
 												<a href="../commandline/routing.html">Commandline</a>
@@ -122,9 +131,6 @@
 						</li>
 										</ul>
 				</li>
-													<li class="navigation-menu-folder">
-					<a class=""
-						href="../miscs.html">Miscs</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -141,9 +147,7 @@
 						<h1>Commandline: Routing</h1>
 						<p>passing arguments</p>
 
-<pre><code class="language-php">$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function(){
-    $src = $this-&gt;params-&gt;src;
-    $target = $this-&gt;params-&gt;target;
+<pre><code class="language-php">$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function($src, $target) {
 });
 </code></pre>
 
@@ -151,7 +155,7 @@
 
 <pre><code class="language-php">$app-&gt;set('pretty');
 
-$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function(){
+$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function() {
     return $this-&gt;params;
 })-&gt;options(['overwrite','interactive']);
 </code></pre>

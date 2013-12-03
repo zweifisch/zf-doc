@@ -69,7 +69,7 @@
 					<a class=""
 						href="component.html">Component</a></li>
 													<li class="navigation-menu-folder">
-					<a class=""
+					<a class="current"
 						href="middleware.html">Middleware</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
@@ -112,7 +112,7 @@
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
-					<a class="current"
+					<a class=""
 						href="laziness.html">Laziness</a></li>
 													<li class="navigation-menu-folder">
 					<ul>
@@ -144,37 +144,62 @@
 
 		</div>
 		<div class="main-content">
-						<h1> Laziness</h1>
-						<p><code>zf\App</code> extends <code>Laziness</code></p>
+						<h1> Middleware</h1>
+						<p>middleware is a way to map a request to multiple functions, samller and more reusable functions</p>
 
-<p>assign a closure to a Laziness instance and access it later will get the closure invoked, and the result will be cached</p>
+<h2>a middleware for permission controll</h2>
 
-<pre><code class="language-php">$app-&gt;products = function(){
-    $this-&gt;mongo-&gt;products-&gt;find();
-};
+<pre><code class="language-php">$app-&gt;middleware('can', function($args) {
+    if(!$this-&gt;user-&gt;can($args)){
+        return 403;
+    }
+});
 
-$app-&gt;get('products', function(){
-    return iterator_to_array($this-&gt;products);  // db query won't be send until this line
+$app-&gt;delete('/post/:id', 'can:DeletePost', function() {
+    return $this-&gt;db-&gt;delete(['_id'=&gt; $id])
 });
 </code></pre>
 
-<p>combined with param handlers</p>
+<p>same thing without middleware</p>
 
-<pre><code class="language-php">$app-&gt;param('products', function($value){
-    $this-&gt;product = $this-&gt;helper-&gt;delayed-&gt;loadProduct($value);
-    return $value;
-});
-
-$app-&gt;get('products/:products', function(){
-    return $this-&gt;products;
+<pre><code class="language-php">$app-&gt;delete('/post/:id', function($id) {
+    // check manually in each handler
+    if($this-&gt;user-&gt;canDeletePost) {
+        return $this-&gt;db-&gt;delete(['_id'=&gt; $id]);
+    }
+    return 403;
 });
 </code></pre>
 
-<h2>helpers</h2>
+<h3>middleware as decorators</h3>
 
-<p><code>$app-&gt;helper</code> is an instance of 'ClosureSet', which has a property <code>deplayed</code></p>
+<pre><code class="language-php">/**
+ * @can DeletePost
+ */
+return function($id){
+    return $this-&gt;db-&gt;delete(['_id'=&gt; $id]);
+}
+</code></pre>
 
-<p><code>$this-&gt;helper-&gt;delayed-&gt;loadProduct($id);</code> will return an closure instead fo calling the helper immediately</p>
+<h3>writing a middleware</h3>
+
+<p>a middlware for http basic auth</p>
+
+<pre><code class="language-php">$app-&gt;middleware('auth', function($user, $passwd) {
+    if($this-&gt;get('PHP_AUTH_USER') != $user
+        || $this-&gt;get('PHP_AUTH_PW') != $passwd) {
+        $this-&gt;header('WWW-Authenticate', ['Basic realm'=&gt; 'Login Required']);
+        $this-&gt;status(401);
+        return 'Unauthorized';
+    }
+});
+</code></pre>
+
+<p>If <code>null</code> or a closure is returned from the middleware, the next middleware will be called, otherwise the returned result will be interpreted as the response and the rest middlewares will be skipped.</p>
+
+<p>The closures returned from the middlewares will be called one by one in reversed order once the response is available, and the response will be passed as an argument to those closures, so that the response can be modified.</p>
+
+<p>standalone middlewares should be located in <code>middlewares</code> by default</p>
 		</div>
 	</div>
 
