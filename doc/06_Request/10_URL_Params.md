@@ -1,8 +1,8 @@
 
-get params from url
+getting params from url
 
 ```php
-$app->get('products/:id', function($id){
+$app->get('products/:id', function($id) {
 	$id == $this->params->id;  // true
 });
 ```
@@ -10,10 +10,10 @@ $app->get('products/:id', function($id){
 optional params
 
 ```php
-$app->get('products/:id?', function(){
+$app->get('products/:id?', function() {
 	if($this->params->id){
 		// show product by id
-	}else{
+	} else {
 		// $this->params->id is null, list all products
 	}
 });
@@ -22,16 +22,6 @@ $app->get('products/:id?', function(){
 ## accessing params in query string
 
 `/products?limit=20&offset=20&c=1`
-
-```php
-$app->get('products', function(){
-	$limit = $this->query->limit->asInt(10);
-	$offset = $this->query->offset->asInt(0);
-	$category = $this->query->c->asStr('');
-});
-```
-
-or more concisely
 
 ```php
 $app->get('products', function($c, $limit=10, $offset=0) {
@@ -44,7 +34,7 @@ $app->get('products', function($c, $limit=10, $offset=0) {
 register a param handler
 
 ```php
-$app->param('ids', function($value){
+$app->param('ids', function($value) {
 	return explode(',', $value);
 });
 ```
@@ -52,28 +42,27 @@ $app->param('ids', function($value){
 when params get accessed, the registered handler will be called
 
 ```php
-$app->get('products/:ids', function(){
-	$this->params->ids;  // '1,2,3' will be turned into [1,2,3]
+$app->get('products/:ids', function($ids) {
+	// ids should be [1,2,3] if request path is 'products/1,2,3'
 });
 
-$app->get('users/:ids', function(){
+$app->get('users/:ids', function() {
 	// handler won't get called if $this->params->ids is not accessed
 });
 ```
 
-eager handlers always get called
+usecase: preloading data
 
 ```php
-$app->param('productIds', function($value){
-	$ids = explode(',', $value);
-	// `delayed` will return a closure, see Helper
-	$this->products = $this->helper->delayed->loadProducts($ids);
-	return $ids;
-})->eager();
-```
+$app->param('product_id', function($id) {
+	$this->product = function() use ($id) {
+		return $this->db->findOne(['_id' => $id]);
+	};
+});
 
-```php
-$app->get('products/:productIds', function(){
-	return $this->products;
+$app->get('product/:product_id', function($product_id) {
+	return $this->product ? $this->product : 404;
 });
 ```
+
+`$product_id` must be put in the handler's arguments list or be accessed using `$this->params->product_id` otherwise the param handler above won't be called; also note that `$this->product` won't be evaluated until it's accessed

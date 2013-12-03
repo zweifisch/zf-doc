@@ -2,21 +2,26 @@
 lastModified
 
 ```php
-$this->lastModified($timestamp);
+$this->response->lastModified($timestamp);
 ```
 
 cacheControl
 
 ```php
-$this->cacheControl('public', 'must-revalidate', ['max-age'=> 60]);
+$this->response->cacheControl('public', 'must-revalidate', ['max-age'=> 60]);
+```
+
+redirect
+
+```php
+$this->response->redirect($url);
+$this->response->redirect($url, true); // 301
 ```
 
 jsonp
 
 ```php
-
-$app->get('/products', function(){
-	$this->set('jsonp', 'callback');
+$app->get('/products', 'jsonp:callback', function() {
 	return iterator_to_array($this->mongo->products->find());
 });
 ```

@@ -1,21 +1,74 @@
-
-
-components are just classes attached to the $app instance,
-`\zf\Mongo`, `\zf\Redis` and '\zf\Session' are available out of the box
+register components in configs.php
 
 ```php
-$app->register('mongo', '\zf\Mongo', $app->config->mongo);
-$app->register('redis', '\zf\Redis');
+return [
+	'components' => [
+		'mongo' => 'Mongo', [
+			'collections' => [
+				'users','posts' => [
+					'url'        => 'mongodb://localhost:27017',
+					'database'   => 'project',
+			],
+		],
+		'redis' => 'Redis', [
+			'dbs' => [
+				'default' => [
+					'host'     => 'localhost',
+					'pconnect' => true,
+				],
+			],
+		],
+	],
+];
+```
 
-// \zf\Mongo won't be initilazed unless $app->mongo is accessed
+accessing components
+
+```
 $app->mongo->users->findOne();
 ```
 
-execute some additional code, when component is actually initialized
+## register componets on the fly
 
 ```php
-$app->register('component', 'SomeClass', $arg1, $arg2)->initialized(function($component){
-	$connected = $component->connect();
-	$this->debug('component', $connected);
+$app->register('db', '\ns\SomeDB', ['host' => $host, 'port' => $port]);
+```
+
+or using a closure
+
+```php
+$app->register('myComponent', function(){
+	return new \ns\SomeComponent();
 });
+```
+
+execute some additional code when the component is actually initialized
+
+```php
+$app->register('db', '\ns\SomeDB', ['url' => $url])->initialized(function($db) {
+	$connected = $db->connect();
+});
+```
+
+## component depends on other components
+
+```php
+return [
+	'components' => [
+		'httpclient' => '\HTTPClient',
+		'restclient' => '\RestClient' => [
+			'baseurl' => 'http://restserver.io'
+		],
+	],
+];
+```
+
+```php
+class RestClient
+{
+	function __construct($baseurl, $httpclient)
+	{
+		// $httpclient is an instance of \HTTPClient;
+	}
+}
 ```

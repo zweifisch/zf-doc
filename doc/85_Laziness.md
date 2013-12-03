@@ -1,7 +1,7 @@
 
 `zf\App` extends `Laziness`
 
-assign a closure to a Laziness instance and access it later will get the closure evaluated, and the result will be cached
+assign a closure to a Laziness instance and access it later will get the closure invoked, and the result will be cached
 
 ```php
 $app->products = function(){
@@ -26,3 +26,8 @@ $app->get('products/:products', function(){
 });
 ```
 
+## helpers
+
+`$app->helper` is an instance of 'ClosureSet', which has a property `deplayed`
+
+`$this->helper->delayed->loadProduct($id);` will return an closure instead fo calling the helper immediately

@@ -11,6 +11,10 @@ return [
 				'host'     => 'localhost',
 				'pconnect' => true,
 			],
+			'default' => [
+				'host'     => 'localhost',
+				'pconnect' => true,
+			],
 		],
 		// ...
 	],
@@ -18,12 +22,20 @@ return [
 ];
 ```
 
-```
-$app->get('/product/:id', function(){
-	$this->redis->product->incr('view:'.$this->params->id);
+```php
+$app->get('/product/:id', function($id) {
+	$this->redis->product->incr('view:'.$id);
 });
 ```
 
-## use predefined keys
+```php
+$app->get('/', function(){
+	$this->redis->counter->incr(); // same as $this->redis->default->incr('cunter');
+});
+```
 
-TBD
+```php
+$this->redis->foo->bar = 'val'; // same as $this->redis->hset('foo', 'bar', 'val');
+
+$this->redis->foo->hget('bar'); // same as $this->redis->hget('foo', 'bar');
+```

@@ -1,11 +1,9 @@
 
-
-
 get piped input
 
-use `$this->getstdin();`
+use `$this->request->getstdin();`
 
-print to stdout
+write to stderror
 
 ```
 $this->log('format %s %s', 'value', 'value');

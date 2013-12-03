@@ -1,11 +1,11 @@
 
-declare a rousource
+declaring a rousource
 
 ```php
 $app->resource('posts');
 ```
 
-it is equivelent to
+which is equivelent to
 
 ```php
 $app->get('/posts', 'posts/index');
@@ -16,5 +16,35 @@ $app->get('/posts/:posts/edit', 'posts/edit');
 $app->put('/posts/:posts', 'posts/update');
 $app->patch('/posts/:posts', 'posts/modify');
 $app->delete('/posts/:posts', 'posts/destroy');
-$app->post('/posts/:posts/:action', 'posts/$action');
 ```
+
+## custom methods
+
+```php
+$app->resource('posts', ['like', 'trash', 'fork']);
+```
+
+will generate following addtional routing rules
+
+```
+$app->post('/posts/:posts/like', 'posts/like');
+$app->post('/posts/:posts/trash' 'posts/trash');
+$app->post('/posts/:posts/fork', 'posts/fork');
+```
+
+## subresources
+
+declaring subresources
+
+```php
+$app->resource('posts', 'comments', ['upvote', 'downvote']);
+// /posts/:posts/comments/:comments
+```
+
+multilevel subresources
+
+```php
+$app->resource('posts', 'comments', 'from', 'to');
+// /posts/:posts/comments/:comments/from/:from/to/:to
+```
+

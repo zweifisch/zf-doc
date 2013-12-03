@@ -19,12 +19,13 @@ request body
 will be routed to `handlers/job/start.php`
 
 ```php
-return function($param, $param2){
+<?php
+return function($param, $param2) {
 	return "job started";
 };
 ```
 
-define user error codes
+defining user error codes
 
 ```php
 $app->set('jsonrpc codes', [
@@ -36,7 +37,7 @@ $app->set('jsonrpc codes', [
 return an error
 
 ```php
-return function(){
+return function() {
 	return $this->error(-32001, $extraInfo);
 };
 ```

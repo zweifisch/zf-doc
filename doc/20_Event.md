@@ -1,19 +1,19 @@
 
-register and emit
+registering and triggering events
 
 ```php
-$app->on('user:hit', function($data){
+$app->on('user:hit', function($data) {
 	$this->mongo['events.user']->insert(['user'=>$data['_id']);
 });
 
-$app->on('user:hit', function($data){
+$app->on('user:hit', function($data) {
 	$this->redis->users->zincrby('hotusers', 1, $data['_id']);
 });
 
-$app->get('/user/:id', function($data){
-	$user = $this->mongo->user->findOne(['_id'=>$this->params->id]);
+$app->get('/user/:id', function($id) {
+	$user = $this->mongo->user->findOne(['_id'=>$id]);
 	$this->emit('user:hit', $user);
-	$this->send($user);
+	return $user;
 });
 ```
 
@@ -33,12 +33,21 @@ $app->on('user:*', function($data, $event){
 });
 ```
 
+registering event handlers using the `$app->onSomeEvent` method
+
+```php
+$app->onEvent($callback); // same as $app->on('event', $callback);
+```
+
 to stop an event, return a truthy value in the handler
 
 ### predefined events
 
-`zf\EVENT_EXCEPTION`
-`zf\EVENT_ERROR`
-`zf\EVENT_SHUTDOWN`
-`zf\EVENT_VALIDATION_ERROR`
+'exception', 'error', 'shutdown'
+
+```php
+$app->onShutdown(function() {
+	echo 'bye';
+});
+```php
 

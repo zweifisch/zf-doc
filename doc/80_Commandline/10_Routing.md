@@ -2,9 +2,7 @@
 passing arguments
 
 ```php
-$app->cmd('mv <src> <target>', function(){
-	$src = $this->params->src;
-	$target = $this->params->target;
+$app->cmd('mv <src> <target>', function($src, $target) {
 });
 ```
 
@@ -13,7 +11,7 @@ options
 ```php
 $app->set('pretty');
 
-$app->cmd('mv <src> <target>', function(){
+$app->cmd('mv <src> <target>', function() {
 	return $this->params;
 })->options(['overwrite','interactive']);
 ```

@@ -1,5 +1,5 @@
 
-describe input schema using [json-scheme](http://json-schema.org/), schemas should be located in folder schemas by default
+describe input schema using [json-scheme](http://json-schema.org/), schemas should be located in folder `schemas` by default
 
 `schemas/product.json`
 
@@ -26,17 +26,18 @@ describe input schema using [json-scheme](http://json-schema.org/), schemas shou
 }
 ```
 
-if the input validates against the schema, `$this->body` will be populated as a `stdObject` or array; otherwise, errors are pushed to `$this->errors` and `$this->body` will be set to null
+if the input faild the validation, errors are pushed to `$this->errors`
 
 ```php
 /**
- * @body product.json
+ * @schema product.json
  */
 return function() {
-	if ($this->body) {
-		return $this->mongo->products->insert($this->body);
-	} else {
+	if ($this->errors) {
+		$this->response->status = 400;
 		return $this->errors;
+	} else {
+		return $this->mongo->products->insert($this->body);
 	}
 };
 ```

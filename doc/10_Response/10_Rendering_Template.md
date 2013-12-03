@@ -26,9 +26,20 @@ dashboard.php
 
 ## using mustache
 
-```php
-$app->set('view engine', 'mustache');
+configuration in configs.php
 
+```
+return [
+	'components' => [
+		'engine' => Mustache', [
+			'path' => 'views',
+			'extension' => '.mustache',
+		],
+	],
+];
+```
+
+```php
 $app->get('/', function(){
 	// render index.mustache
 	return $this->render('index', [

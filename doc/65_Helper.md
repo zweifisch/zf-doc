@@ -13,7 +13,7 @@ invoke a helper
 
 ```php
 $app->get('/', function(){
-	$this->helper->donothing(null);
+	$this->helper->donothing(null); // $this->donothing(null); is also valid
 	$this->helper->otherhelper(); // load from helpers folder
 });
 ```
@@ -25,19 +25,3 @@ $app->helper(['myhelper', 'otherhelper']);
 ```
 
 registrated helpers can be accessed as `$this->myhelper();`
-
-## delayed
-
-$app->helper is an instance of 'ClosureSet', which has a property `deplayed`
-
-```php
-$this->helper->delayed->loadProduct($id);
-```
-
-is equivelent to 
-
-```php
-function(){
-	$this->helper->loadProduct($id);
-}
-```

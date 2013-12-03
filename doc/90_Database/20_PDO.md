@@ -1,59 +1,59 @@
 
-use the original PDO
 ```php
-$app->register('db', '\PDO', $dsn, $user, $password);
-```
-
-use the wrapped PDO
-```php
-// configs.php
-$exports['db'] = [
-	'dsn' => 'mysql:host=localhost;dbname=mysql',
-	'username' => 'root',
-	'password' => 'secret',
-	'queries' => [
-		'users' => 'select User,Host from user limit :offset,:limit',
-	]
-];
-return $exports;
-```
-
-```php
-$app->register('db','\PDO');
-
-$app->get('/users', function(){
-	$user = $this->db->users->bind(['limit'=>10,'offset'=>0])->fetchAll();
-	// or 
-	$user = $this->db->users->bindInt('limit',10)->bindInt('offset',0)->fetchAll();
-	$this->send($user);
-});
-```
-
-```php
-// configs.php
-$exports['db'] = [
-	'dsn' => 'mysql:host=localhost;dbname=mysql',
-	'username' => 'root',
-	'password' => 'secret',
-	'queries' => [
-		'users' => [
-			'list' => 'select User,Host from user limit :offset,:limit',
+return [
+	'components' => [
+		'db' => 'PDO', [
+			'config' => [
+				'dsn' => 'mysql:host=localhost;dbname=mysql',
+				'username' => 'root',
+				'password' => 'secret',
+				'queries' => [
+					'users' => 'select User,Host from user limit :offset,:limit',
+				]
+			]
 		]
 	]
 ];
-return $exports;
 ```
 
 ```php
-$app->register('db','\PDO');
+$app->get('/users', function($limit, $offset) {
+	$user = $this->db->users->bind(['limit'=>$limit,'offset'=>$offset])->fetchAll();
+	// or 
+	$user = $this->db->users->bindInt('limit',$limit)->bindInt('offset',$offset)->fetchAll();
+	return $user;
+});
+```
 
-$app->get('/users', function(){
+`noun->verb` style
+
+```php
+return [
+	'components' => [
+		'db' => 'PDO', [
+			'config' => [
+				'dsn' => 'mysql:host=localhost;dbname=mysql',
+				'username' => 'root',
+				'password' => 'secret',
+				'queries' => [
+					'users' => [
+						'list' => 'select User,Host from user limit :offset,:limit',
+					]
+				]
+			]
+		]
+	]
+];
+```
+
+```php
+$app->get('/users', function($limit, $offset) {
 	$user = $this->db->users
-		->bindInt('limit',10)
-		->bindInt('offset',0)
+		->bindInt('limit', $limit)
+		->bindInt('offset', $offset)
 		->list();
 	// or 
 	$user = $this->db->users->list(['limit'=>10, 'offset'=>0]);
-	$this->send($user);
+	return $user;
 });
 ```
