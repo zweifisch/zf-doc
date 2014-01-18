@@ -131,6 +131,9 @@
 						</li>
 										</ul>
 				</li>
+													<li class="navigation-menu-folder">
+					<a class=""
+						href="../logging.html">Logging</a></li>
 									</ul>
 
 			<ul class="menu-links">
@@ -147,45 +150,45 @@
 						<h1>Routing: REST</h1>
 						<p>declaring a rousource</p>
 
-<pre><code class="language-php">$app-&gt;resource('posts');
+<pre><code class="language-php">$app-&gt;resource('post');
 </code></pre>
 
 <p>which is equivelent to</p>
 
-<pre><code class="language-php">$app-&gt;get('/posts', 'posts/index');
-$app-&gt;get('/posts/new', 'posts/new');
-$app-&gt;post('/posts', 'posts/create');
-$app-&gt;get('/posts/:posts', 'posts/show');
-$app-&gt;get('/posts/:posts/edit', 'posts/edit');
-$app-&gt;put('/posts/:posts', 'posts/update');
-$app-&gt;patch('/posts/:posts', 'posts/modify');
-$app-&gt;delete('/posts/:posts', 'posts/destroy');
+<pre><code class="language-php">$app-&gt;get('/post', 'post/index');
+$app-&gt;get('/post/new', 'post/new');
+$app-&gt;post('/post', 'post/create');
+$app-&gt;get('/post/:postId', 'post/show');
+$app-&gt;get('/post/:postId/edit', 'post/edit');
+$app-&gt;put('/post/:postId', 'post/update');
+$app-&gt;patch('/post/:postId', 'post/modify');
+$app-&gt;delete('/post/:postId', 'post/destroy');
 </code></pre>
 
 <h2>custom methods</h2>
 
-<pre><code class="language-php">$app-&gt;resource('posts', ['like', 'trash', 'fork']);
+<pre><code class="language-php">$app-&gt;resource('post', ['like', 'trash', 'fork']);
 </code></pre>
 
 <p>will generate following addtional routing rules</p>
 
-<pre><code>$app-&gt;post('/posts/:posts/like', 'posts/like');
-$app-&gt;post('/posts/:posts/trash' 'posts/trash');
-$app-&gt;post('/posts/:posts/fork', 'posts/fork');
+<pre><code>$app-&gt;post('/post/:postId/like', 'post/like');
+$app-&gt;post('/post/:postId/trash' 'post/trash');
+$app-&gt;post('/post/:postId/fork', 'post/fork');
 </code></pre>
 
 <h2>subresources</h2>
 
 <p>declaring subresources</p>
 
-<pre><code class="language-php">$app-&gt;resource('posts', 'comments', ['upvote', 'downvote']);
-// /posts/:posts/comments/:comments
+<pre><code class="language-php">$app-&gt;resource('post', 'comment', ['upvote', 'downvote']);
+// /post/:postId/comment/:commentId
 </code></pre>
 
 <p>multilevel subresources</p>
 
-<pre><code class="language-php">$app-&gt;resource('posts', 'comments', 'from', 'to');
-// /posts/:posts/comments/:comments/from/:from/to/:to
+<pre><code class="language-php">$app-&gt;resource('post', 'comment', 'from', 'to');
+// /post/:postId/comment/:commentId/from/:fromId/to/:toId
 </code></pre>
 		</div>
 	</div>

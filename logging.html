@@ -63,7 +63,7 @@
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
-					<a class="current"
+					<a class=""
 						href="event.html">Event</a></li>
 													<li class="navigation-menu-folder">
 					<a class=""
@@ -132,7 +132,7 @@
 										</ul>
 				</li>
 													<li class="navigation-menu-folder">
-					<a class=""
+					<a class="current"
 						href="logging.html">Logging</a></li>
 									</ul>
 
@@ -147,53 +147,39 @@
 
 		</div>
 		<div class="main-content">
-						<h1> Event</h1>
-						<p>registering and triggering events</p>
+						<h1> Logging</h1>
+						<p>logging using Monolog</p>
 
-<pre><code class="language-php">$app-&gt;on('user:hit', function($data) {
-    $this-&gt;mongo['events.user']-&gt;insert(['user'=&gt;$data['_id']);
-});
-
-$app-&gt;on('user:hit', function($data) {
-    $this-&gt;redis-&gt;users-&gt;zincrby('hotusers', 1, $data['_id']);
-});
-
-$app-&gt;get('/user/:id', function($id) {
-    $user = $this-&gt;mongo-&gt;user-&gt;findOne(['_id'=&gt;$id]);
-    $this-&gt;emit('user:hit', $user);
-    return $user;
-});
+<pre><code class="language-sh">composer.phar require "monolog/monolog:*"
 </code></pre>
 
-<p>handler with highest priority get called first, the default priority is <code>0</code></p>
+<p>configuration in configs.php</p>
 
-<pre><code class="language-php">$app-&gt;on('event', function(){
-    // will be called after all handlers
-})-&gt;priority(-1);
+<pre><code class="language-php">return [
+    'components' =&gt; [
+        'log' =&gt; [
+            'channels' =&gt; [
+                'default' =&gt; [
+                    'StreamHandler' =&gt; ['logs/log.log', 'DEBUG'],
+                    'FirePHPHandler',
+                ],
+                'security' =&gt; [
+                    'StreamHandler' =&gt; ['logs/security.log', 'WARNING'],
+                ],
+            ],
+        ],
+    ],
+];
 </code></pre>
 
-<p>listening for multiple events</p>
+<p>use it inside a handler</p>
 
-<pre><code class="language-php">$app-&gt;on('user:*', function($data, $event){
-    // will get called for `user:login`, `user:logout` etc.
-});
+<pre><code class="language-php">$this-&gt;log-&gt;addInfo("log from default logger");
+
+$this-&gt;log-&gt;security-&gt;addWarning("log from security logger", [
+    'key' =&gt; 'value'
+]);
 </code></pre>
-
-<p>registering event handlers using the <code>$app-&gt;onSomeEvent</code> method</p>
-
-<pre><code class="language-php">$app-&gt;onEvent($callback); // same as $app-&gt;on('event', $callback);
-</code></pre>
-
-<p>to stop an event, return a truthy value in the handler</p>
-
-<h3>predefined events</h3>
-
-<p>'exception', 'error', 'shutdown'</p>
-
-<p><code>php
-$app-&gt;onShutdown(function() {
-    echo 'bye';
-});</code>php</p>
 		</div>
 	</div>
 
