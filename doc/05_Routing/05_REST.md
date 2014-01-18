@@ -2,34 +2,34 @@
 declaring a rousource
 
 ```php
-$app->resource('posts');
+$app->resource('post');
 ```
 
 which is equivelent to
 
 ```php
-$app->get('/posts', 'posts/index');
-$app->get('/posts/new', 'posts/new');
-$app->post('/posts', 'posts/create');
-$app->get('/posts/:posts', 'posts/show');
-$app->get('/posts/:posts/edit', 'posts/edit');
-$app->put('/posts/:posts', 'posts/update');
-$app->patch('/posts/:posts', 'posts/modify');
-$app->delete('/posts/:posts', 'posts/destroy');
+$app->get('/post', 'post/index');
+$app->get('/post/new', 'post/new');
+$app->post('/post', 'post/create');
+$app->get('/post/:postId', 'post/show');
+$app->get('/post/:postId/edit', 'post/edit');
+$app->put('/post/:postId', 'post/update');
+$app->patch('/post/:postId', 'post/modify');
+$app->delete('/post/:postId', 'post/destroy');
 ```
 
 ## custom methods
 
 ```php
-$app->resource('posts', ['like', 'trash', 'fork']);
+$app->resource('post', ['like', 'trash', 'fork']);
 ```
 
 will generate following addtional routing rules
 
 ```
-$app->post('/posts/:posts/like', 'posts/like');
-$app->post('/posts/:posts/trash' 'posts/trash');
-$app->post('/posts/:posts/fork', 'posts/fork');
+$app->post('/post/:postId/like', 'post/like');
+$app->post('/post/:postId/trash' 'post/trash');
+$app->post('/post/:postId/fork', 'post/fork');
 ```
 
 ## subresources
@@ -37,14 +37,14 @@ $app->post('/posts/:posts/fork', 'posts/fork');
 declaring subresources
 
 ```php
-$app->resource('posts', 'comments', ['upvote', 'downvote']);
-// /posts/:posts/comments/:comments
+$app->resource('post', 'comment', ['upvote', 'downvote']);
+// /post/:postId/comment/:commentId
 ```
 
 multilevel subresources
 
 ```php
-$app->resource('posts', 'comments', 'from', 'to');
-// /posts/:posts/comments/:comments/from/:from/to/:to
+$app->resource('post', 'comment', 'from', 'to');
+// /post/:postId/comment/:commentId/from/:fromId/to/:toId
 ```
 

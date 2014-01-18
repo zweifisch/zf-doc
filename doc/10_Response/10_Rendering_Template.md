@@ -31,7 +31,7 @@ configuration in configs.php
 ```
 return [
 	'components' => [
-		'engine' => Mustache', [
+		'engine' => 'Mustache', [
 			'path' => 'views',
 			'extension' => '.mustache',
 		],
