@@ -16,20 +16,8 @@ $app->get('/post/:postId/edit', 'post/edit');
 $app->put('/post/:postId', 'post/update');
 $app->patch('/post/:postId', 'post/modify');
 $app->delete('/post/:postId', 'post/destroy');
-```
-
-## custom methods
-
-```php
-$app->resource('post', ['like', 'trash', 'fork']);
-```
-
-will generate following addtional routing rules
-
-```
-$app->post('/post/:postId/like', 'post/like');
-$app->post('/post/:postId/trash' 'post/trash');
-$app->post('/post/:postId/fork', 'post/fork');
+// and for custom methods
+$app->post('/post/:postId/:action', 'post/:action');
 ```
 
 ## subresources
@@ -37,14 +25,19 @@ $app->post('/post/:postId/fork', 'post/fork');
 declaring subresources
 
 ```php
-$app->resource('post', 'comment', ['upvote', 'downvote']);
+$app->resource('post/comment');
 // /post/:postId/comment/:commentId
 ```
 
-multilevel subresources
+## path prefix
 
 ```php
-$app->resource('post', 'comment', 'from', 'to');
-// /post/:postId/comment/:commentId/from/:fromId/to/:toId
+$app->resource('v2', 'post');
 ```
 
+## multiple resources
+
+```php
+$app->resource('v2', ['post', 'user']);
+$app->resource(['post', 'user', 'user/avatar']);
+```

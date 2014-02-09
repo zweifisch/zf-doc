@@ -21,7 +21,10 @@ $this->response->redirect($url, true); // 301
 jsonp
 
 ```php
-$app->get('/products', 'jsonp:callback', function() {
+/**
+ * @jsonp callback
+ */
+$app->get('/products', function() {
 	return iterator_to_array($this->mongo->products->find());
 });
 ```

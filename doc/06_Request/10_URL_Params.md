@@ -2,20 +2,22 @@
 getting params from url
 
 ```php
+/**
+ * @param string $id id of product
+ */
 $app->get('products/:id', function($id) {
-	$id == $this->params->id;  // true
+	$id === $this->params->id;  // true
 });
 ```
 
 optional params
 
 ```php
-$app->get('products/:id?', function() {
-	if($this->params->id){
-		// show product by id
-	} else {
-		// $this->params->id is null, list all products
-	}
+/**
+ * @param string $id id of product
+ */
+$app->get('products/:id?', function($id=null) {
+	// ...
 });
 ```
 
@@ -24,6 +26,11 @@ $app->get('products/:id?', function() {
 `/products?limit=20&offset=20&c=1`
 
 ```php
+/**
+ * @param mixed $c c for category
+ * @param int $limit limit will be converted to int
+ * @param int $offset
+ */
 $app->get('products', function($c, $limit=10, $offset=0) {
 	// if $c is not set, 404 will be returned
 });
@@ -42,6 +49,9 @@ $app->param('ids', function($value) {
 when params get accessed, the registered handler will be called
 
 ```php
+/**
+ * @param string $ids
+ */
 $app->get('products/:ids', function($ids) {
 	// ids should be [1,2,3] if request path is 'products/1,2,3'
 });
@@ -54,15 +64,16 @@ $app->get('users/:ids', function() {
 usecase: preloading data
 
 ```php
-$app->param('product_id', function($id) {
+$app->param('productId', function($id) {
 	$this->product = function() use ($id) {
 		return $this->db->findOne(['_id' => $id]);
 	};
 });
 
-$app->get('product/:product_id', function($product_id) {
+/**
+ * @param string $productId id of product
+ */
+$app->get('product/:productId', function($productId) {
 	return $this->product ? $this->product : 404;
 });
 ```
-
-`$product_id` must be put in the handler's arguments list or be accessed using `$this->params->product_id` otherwise the param handler above won't be called; also note that `$this->product` won't be evaluated until it's accessed

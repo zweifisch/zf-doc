@@ -12,8 +12,12 @@ create a index.php
 
 require 'vendor/autoload.php';
 
-$app = new zf\App();
+$app = new zf\App;
 
+/**
+ * @param string $name documentation is required!
+ * @param string $more
+ */
 $app->get('/hello/:name', function($name, $more=''){
 	return ['hello' => $name.$more];
 });

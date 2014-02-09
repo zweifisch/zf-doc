@@ -49,5 +49,5 @@ to stop an event, return a truthy value in the handler
 $app->onShutdown(function() {
 	echo 'bye';
 });
-```php
+```
 

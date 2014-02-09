@@ -10,7 +10,10 @@ $app->middleware('can', function($args) {
 	}
 });
 
-$app->delete('/post/:id', 'can:DeletePost', function() {
+/**
+ * @can DeletePost
+ */
+$app->delete('/post/:id', function() {
 	return $this->db->delete(['_id'=> $id])
 });
 ```
@@ -25,17 +28,6 @@ $app->delete('/post/:id', function($id) {
 	}
 	return 403;
 });
-```
-
-### middleware as decorators
-
-```php
-/**
- * @can DeletePost
- */
-return function($id){
-	return $this->db->delete(['_id'=> $id]);
-}
 ```
 
 ### writing a middleware

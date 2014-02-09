@@ -8,7 +8,10 @@ $app->middleware('is', function($role){
 	}
 });
 
-$app->get('/admin', 'is:Admin', function(){
+/**
+ * @is Admin
+ */
+$app->get('/admin', function(){
 	return $this->render('dashboard',['username'=>$this->user->username]);
 });
 

@@ -1,27 +1,33 @@
 
-helpers should be put in the `helpers` folder, or registered dynamically
+helpers should be put in `helpers.php` or registered dynamically
+
+if you have a lot them, put them in the `helpers` folder
 
 register a helper
 
 ```php
-$app->helper('donothing', function($arg){
+$app->helper('doNothing', function($arg) {
 	return $arg;
 });
+```
+
+helper in `helpers.php`
+
+```php
+<?php
+
+namespace helpers;
+
+function loadUsers($ids) {
+	return $this->db->find($ids);
+}
 ```
 
 invoke a helper
 
 ```php
-$app->get('/', function(){
-	$this->helper->donothing(null); // $this->donothing(null); is also valid
-	$this->helper->otherhelper(); // load from helpers folder
+$app->get('/', function() {
+	$this->helper->doNothing(null);
+	$this->helper->doSometing();
 });
 ```
-
-register helper from `helpers` folder
-
-```php
-$app->helper(['myhelper', 'otherhelper']);
-```
-
-registrated helpers can be accessed as `$this->myhelper();`

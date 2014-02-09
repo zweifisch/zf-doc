@@ -12,18 +12,20 @@ $app->run();
 using external handler
 
 ```php
-$app->post('/users', 'users/create');  // load from handlers/users/create.php
+$app->post('/user', 'user/create');  // load from handlers/user.php
 ```
 
-inside `handlers/user/create.php`
+inside `handlers/user.php`
 
 ```php
 <?php
 
-return function(){
+namespace user;
+
+function create() {
 	// the unparsed request body can be accessed as $this->request->body
+	// 'mongo' is a component, which will be covered later
 	$this->mongo->users->insert($this->body);
-	$this->response->status = 201;
-	return ['ok'=>true, 'msg'=> 'user created'];
-};
+	return ['ok'=>true, 'msg'=>'user created'];
+}
 ```

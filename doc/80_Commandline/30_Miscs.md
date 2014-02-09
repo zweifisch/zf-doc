@@ -1,10 +1,12 @@
 
 get piped input
 
-use `$this->request->getstdin();`
+```php
+$this->request->stdin;
+```
 
 write to stderror
 
-```
-$this->log('format %s %s', 'value', 'value');
+```php
+$this->trace('message');
 ```

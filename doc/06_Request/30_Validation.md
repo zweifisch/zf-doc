@@ -42,3 +42,10 @@ return function() {
 };
 ```
 
+*YAML* is also supported, why not
+
+```php
+/**
+ * @schema product.yaml
+ */
+```
