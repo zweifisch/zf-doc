@@ -148,29 +148,35 @@
 		</div>
 		<div class="main-content">
 						<h1> Helper</h1>
-						<p>helpers should be put in the <code>helpers</code> folder, or registered dynamically</p>
+						<p>helpers should be put in <code>helpers.php</code> or registered dynamically</p>
+
+<p>if you have a lot them, put them in the <code>helpers</code> folder</p>
 
 <p>register a helper</p>
 
-<pre><code class="language-php">$app-&gt;helper('donothing', function($arg){
+<pre><code class="language-php">$app-&gt;helper('doNothing', function($arg) {
     return $arg;
 });
 </code></pre>
 
+<p>helper in <code>helpers.php</code></p>
+
+<pre><code class="language-php">&lt;?php
+
+namespace helpers;
+
+function loadUsers($ids) {
+    return $this-&gt;db-&gt;find($ids);
+}
+</code></pre>
+
 <p>invoke a helper</p>
 
-<pre><code class="language-php">$app-&gt;get('/', function(){
-    $this-&gt;helper-&gt;donothing(null); // $this-&gt;donothing(null); is also valid
-    $this-&gt;helper-&gt;otherhelper(); // load from helpers folder
+<pre><code class="language-php">$app-&gt;get('/', function() {
+    $this-&gt;helper-&gt;doNothing(null);
+    $this-&gt;helper-&gt;doSometing();
 });
 </code></pre>
-
-<p>register helper from <code>helpers</code> folder</p>
-
-<pre><code class="language-php">$app-&gt;helper(['myhelper', 'otherhelper']);
-</code></pre>
-
-<p>registrated helpers can be accessed as <code>$this-&gt;myhelper();</code></p>
 		</div>
 	</div>
 

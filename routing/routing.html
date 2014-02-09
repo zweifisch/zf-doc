@@ -159,19 +159,21 @@ $app-&gt;run();
 
 <p>using external handler</p>
 
-<pre><code class="language-php">$app-&gt;post('/users', 'users/create');  // load from handlers/users/create.php
+<pre><code class="language-php">$app-&gt;post('/user', 'user/create');  // load from handlers/user.php
 </code></pre>
 
-<p>inside <code>handlers/user/create.php</code></p>
+<p>inside <code>handlers/user.php</code></p>
 
 <pre><code class="language-php">&lt;?php
 
-return function(){
+namespace user;
+
+function create() {
     // the unparsed request body can be accessed as $this-&gt;request-&gt;body
+    // 'mongo' is a component, which will be covered later
     $this-&gt;mongo-&gt;users-&gt;insert($this-&gt;body);
-    $this-&gt;response-&gt;status = 201;
-    return ['ok'=&gt;true, 'msg'=&gt; 'user created'];
-};
+    return ['ok'=&gt;true, 'msg'=&gt;'user created'];
+}
 </code></pre>
 		</div>
 	</div>

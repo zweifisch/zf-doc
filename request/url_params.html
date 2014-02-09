@@ -150,19 +150,21 @@
 						<h1>Request: URL Params</h1>
 						<p>getting params from url</p>
 
-<pre><code class="language-php">$app-&gt;get('products/:id', function($id) {
-    $id == $this-&gt;params-&gt;id;  // true
+<pre><code class="language-php">/**
+ * @param string $id id of product
+ */
+$app-&gt;get('products/:id', function($id) {
+    $id === $this-&gt;params-&gt;id;  // true
 });
 </code></pre>
 
 <p>optional params</p>
 
-<pre><code class="language-php">$app-&gt;get('products/:id?', function() {
-    if($this-&gt;params-&gt;id){
-        // show product by id
-    } else {
-        // $this-&gt;params-&gt;id is null, list all products
-    }
+<pre><code class="language-php">/**
+ * @param string $id id of product
+ */
+$app-&gt;get('products/:id?', function($id=null) {
+    // ...
 });
 </code></pre>
 
@@ -170,7 +172,12 @@
 
 <p><code>/products?limit=20&amp;offset=20&amp;c=1</code></p>
 
-<pre><code class="language-php">$app-&gt;get('products', function($c, $limit=10, $offset=0) {
+<pre><code class="language-php">/**
+ * @param mixed $c c for category
+ * @param int $limit limit will be converted to int
+ * @param int $offset
+ */
+$app-&gt;get('products', function($c, $limit=10, $offset=0) {
     // if $c is not set, 404 will be returned
 });
 </code></pre>
@@ -186,7 +193,10 @@
 
 <p>when params get accessed, the registered handler will be called</p>
 
-<pre><code class="language-php">$app-&gt;get('products/:ids', function($ids) {
+<pre><code class="language-php">/**
+ * @param string $ids
+ */
+$app-&gt;get('products/:ids', function($ids) {
     // ids should be [1,2,3] if request path is 'products/1,2,3'
 });
 
@@ -197,18 +207,19 @@ $app-&gt;get('users/:ids', function() {
 
 <p>usecase: preloading data</p>
 
-<pre><code class="language-php">$app-&gt;param('product_id', function($id) {
+<pre><code class="language-php">$app-&gt;param('productId', function($id) {
     $this-&gt;product = function() use ($id) {
         return $this-&gt;db-&gt;findOne(['_id' =&gt; $id]);
     };
 });
 
-$app-&gt;get('product/:product_id', function($product_id) {
+/**
+ * @param string $productId id of product
+ */
+$app-&gt;get('product/:productId', function($productId) {
     return $this-&gt;product ? $this-&gt;product : 404;
 });
 </code></pre>
-
-<p><code>$product_id</code> must be put in the handler's arguments list or be accessed using <code>$this-&gt;params-&gt;product_id</code> otherwise the param handler above won't be called; also note that <code>$this-&gt;product</code> won't be evaluated until it's accessed</p>
 		</div>
 	</div>
 

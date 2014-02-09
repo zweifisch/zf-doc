@@ -158,7 +158,10 @@
     }
 });
 
-$app-&gt;delete('/post/:id', 'can:DeletePost', function() {
+/**
+ * @can DeletePost
+ */
+$app-&gt;delete('/post/:id', function() {
     return $this-&gt;db-&gt;delete(['_id'=&gt; $id])
 });
 </code></pre>
@@ -172,16 +175,6 @@ $app-&gt;delete('/post/:id', 'can:DeletePost', function() {
     }
     return 403;
 });
-</code></pre>
-
-<h3>middleware as decorators</h3>
-
-<pre><code class="language-php">/**
- * @can DeletePost
- */
-return function($id){
-    return $this-&gt;db-&gt;delete(['_id'=&gt; $id]);
-}
 </code></pre>
 
 <h3>writing a middleware</h3>

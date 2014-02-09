@@ -150,7 +150,7 @@
 						<h1>Response: Response</h1>
 						<p>string will be send to client with content-type <code>text/html</code></p>
 
-<pre><code class="language-php">$app-&gt;post('/test', function(){
+<pre><code class="language-php">$app-&gt;post('/test', function() {
     return "&lt;pre&gt;".var_export($this-&gt;body);
 });
 </code></pre>
@@ -159,15 +159,22 @@
 
 <pre><code class="language-php">$app-&gt;set('pretty');  // pretty print
 
-$app-&gt;post('/test', function(){
+$app-&gt;post('/test', function() {
     return $this-&gt;body;
 });
 </code></pre>
 
 <p>int will be send as http status</p>
 
-<pre><code class="language-php">$app-&gt;post('/test', function(){
+<pre><code class="language-php">$app-&gt;post('/test', function() {
     return 201;
+});
+</code></pre>
+
+<p>and a little hack</p>
+
+<pre><code class="language-php">$app-&gt;post('/resource', function() {
+    return [201, 'resource created', 'X-HEADER' =&gt; 'foo'];
 });
 </code></pre>
 		</div>

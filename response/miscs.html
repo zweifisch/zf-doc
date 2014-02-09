@@ -166,7 +166,10 @@ $this-&gt;response-&gt;redirect($url, true); // 301
 
 <p>jsonp</p>
 
-<pre><code class="language-php">$app-&gt;get('/products', 'jsonp:callback', function() {
+<pre><code class="language-php">/**
+ * @jsonp callback
+ */
+$app-&gt;get('/products', function() {
     return iterator_to_array($this-&gt;mongo-&gt;products-&gt;find());
 });
 </code></pre>

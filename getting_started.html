@@ -159,8 +159,12 @@
 
 require 'vendor/autoload.php';
 
-$app = new zf\App();
+$app = new zf\App;
 
+/**
+ * @param string $name documentation is required!
+ * @param string $more
+ */
 $app-&gt;get('/hello/:name', function($name, $more=''){
     return ['hello' =&gt; $name.$more];
 });

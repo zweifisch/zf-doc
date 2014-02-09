@@ -152,33 +152,33 @@
 
 <p>configuration in configs.php</p>
 
-<pre><code class="language-php">return [
-    'components' =&gt; [
-        'mongo' =&gt; 'Mongo', [
-            'collections' =&gt; [
-                'users','articles' =&gt; [
-                    'url' =&gt; 'mongodb://10.0.1.1:27017,10.0.1.2:27017',
-                    'database'=&gt; 'production',
-                    'options' =&gt; [
-                        'replicaSet'=&gt; 'rs0',
-                        'readPreference' =&gt; \MongoClient::RP_SECONDARY_PREFERRED,
-                    ],
+<pre><code class="language-php">'components' =&gt; [
+    'mongo' =&gt; 'Mongo', [
+        'collections' =&gt; [
+            'users','articles' =&gt; [
+                'url' =&gt; 'mongodb://10.0.1.1:27017,10.0.1.2:27017',
+                'database'=&gt; 'production',
+                'options' =&gt; [
+                    'replicaSet'=&gt; 'rs0',
+                    'readPreference' =&gt; \MongoClient::RP_SECONDARY_PREFERRED,
                 ],
-                'logs.errors' =&gt; [
-                    'url' =&gt; 'mongodb://10.0.2.1:27017',
-                    'database'=&gt; 'production',
-                ],
-            ]
-        ],
+            ],
+            'logs.errors' =&gt; [
+                'url' =&gt; 'mongodb://10.0.2.1:27017',
+                'database'=&gt; 'production',
+            ],
+        ]
     ],
-];
-
+],
 </code></pre>
 
 <p>query</p>
 
-<pre><code class="language-php">$app-&gt;get('/user/:id', function($id) {
-    if($user = $this-&gt;mongo-&gt;users-&gt;findOne(['_id'=&gt;$id])) {
+<pre><code class="language-php">/**
+ * @param string $id
+ */
+$app-&gt;get('/user/:id', function($id) {
+    if($user = $this-&gt;mongo-&gt;users-&gt;findOne($id)) {
         return $user;
     } else {
         return 404;
@@ -193,22 +193,17 @@
 
 <p>GridFS</p>
 
-<pre><code class="language-php">return [
-    'components' =&gt; [
-        'mongo' =&gt; 'Mongo', [
-            'collections' =&gt; [
-                'posts','attchments:GridFS' =&gt; [
-                    'url'        =&gt; 'mongodb://localhost:27017',
-                    'database'   =&gt; 'project',
-                ],
-            ]
-        ],
+<pre><code class="language-php">'components' =&gt; [
+    'attachments' =&gt; 'MongoGridFS', [
+            'url'        =&gt; 'mongodb://localhost:27017',
+            'database'   =&gt; 'project',
+        ]
     ],
-];
+],
 </code></pre>
 
 <pre><code class="language-php">$app-&gt;post('/attachment', function() {
-    $this-&gt;mongo-&gt;attchments-&gt;storeUpload('attachment');
+    $this-&gt;gfs-&gt;storeUpload('attachment');
 });
 </code></pre>
 		</div>

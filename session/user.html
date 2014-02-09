@@ -156,7 +156,10 @@
     }
 });
 
-$app-&gt;get('/admin', 'is:Admin', function(){
+/**
+ * @is Admin
+ */
+$app-&gt;get('/admin', function(){
     return $this-&gt;render('dashboard',['username'=&gt;$this-&gt;user-&gt;username]);
 });
 

@@ -163,32 +163,27 @@ $app-&gt;get('/post/:postId/edit', 'post/edit');
 $app-&gt;put('/post/:postId', 'post/update');
 $app-&gt;patch('/post/:postId', 'post/modify');
 $app-&gt;delete('/post/:postId', 'post/destroy');
-</code></pre>
-
-<h2>custom methods</h2>
-
-<pre><code class="language-php">$app-&gt;resource('post', ['like', 'trash', 'fork']);
-</code></pre>
-
-<p>will generate following addtional routing rules</p>
-
-<pre><code>$app-&gt;post('/post/:postId/like', 'post/like');
-$app-&gt;post('/post/:postId/trash' 'post/trash');
-$app-&gt;post('/post/:postId/fork', 'post/fork');
+// and for custom methods
+$app-&gt;post('/post/:postId/:action', 'post/:action');
 </code></pre>
 
 <h2>subresources</h2>
 
 <p>declaring subresources</p>
 
-<pre><code class="language-php">$app-&gt;resource('post', 'comment', ['upvote', 'downvote']);
+<pre><code class="language-php">$app-&gt;resource('post/comment');
 // /post/:postId/comment/:commentId
 </code></pre>
 
-<p>multilevel subresources</p>
+<h2>path prefix</h2>
 
-<pre><code class="language-php">$app-&gt;resource('post', 'comment', 'from', 'to');
-// /post/:postId/comment/:commentId/from/:fromId/to/:toId
+<pre><code class="language-php">$app-&gt;resource('v2', 'post');
+</code></pre>
+
+<h2>multiple resources</h2>
+
+<pre><code class="language-php">$app-&gt;resource('v2', ['post', 'user']);
+$app-&gt;resource(['post', 'user', 'user/avatar']);
 </code></pre>
 		</div>
 	</div>

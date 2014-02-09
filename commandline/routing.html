@@ -151,6 +151,7 @@
 						<p>passing arguments</p>
 
 <pre><code class="language-php">$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function($src, $target) {
+    // ...
 });
 </code></pre>
 
@@ -158,9 +159,14 @@
 
 <pre><code class="language-php">$app-&gt;set('pretty');
 
-$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function() {
+/**
+ * @param string $src
+ * @param string $target
+ * @param bool $overwrite
+ */
+$app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function($src, $target, $overwrite=false) {
     return $this-&gt;params;
-})-&gt;options(['overwrite','interactive']);
+});
 </code></pre>
 
 <pre><code class="language-bash">php cli.php mv --overwrite foo bar
@@ -168,28 +174,8 @@ $app-&gt;cmd('mv &lt;src&gt; &lt;target&gt;', function() {
 
 <pre><code class="language-javascript">{
     "overwrite": true,
-    "interactive": false,
     "src": "foo",
     "target": "bar"
-}
-</code></pre>
-
-<p>options with values</p>
-
-<pre><code class="language-php">$app-&gt;set('pretty');
-
-$app-&gt;cmd('mail &lt;to&gt;', function(){
-    return $this-&gt;params;
-})-&gt;options(['cc'=&gt;'','subject'=&gt;'untitled']);
-</code></pre>
-
-<pre><code class="language-bash">php cli.php mail --cc=foo@mail.com bar@mail.com
-</code></pre>
-
-<pre><code class="language-javascript">{
-    "cc": "foo@mail.com",
-    "subject": "untitled",
-    "to": "bar@mail.com"
 }
 </code></pre>
 		</div>
